@@ -11,7 +11,7 @@
 
 namespace Mastop\SystemBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -53,7 +53,7 @@ EOT
     protected function initialize(InputInterface $input, OutputInterface $output) {
         parent::initialize($input, $output);
 
-        $this->mt = $this->container->get('mastop.themes');
+        $this->mt = $this->getContainer()->get('mastop.themes');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
@@ -65,7 +65,7 @@ EOT
             throw new \InvalidArgumentException('A função symlink() não está disponível em seu sistema. Você deve instalar os temas sem a opção --symlink.');
         }
 
-        $filesystem = $this->container->get('filesystem');
+        $filesystem = $this->getContainer()->get('filesystem');
         $origem = $this->mt->getDir();
         $temas = $this->mt->getAllowedThemes();
         if(empty ($origem) || empty($temas)){
