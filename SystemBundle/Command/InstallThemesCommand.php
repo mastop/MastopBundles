@@ -23,7 +23,7 @@ use Symfony\Component\Finder\Finder;
  *
  * @author Kris Wallsmith <kris@symfony.com>
  */
-class InstallThemesCommand extends Command {
+class InstallThemesCommand extends ContainerAwareCommand {
 
     private $mt;
 
