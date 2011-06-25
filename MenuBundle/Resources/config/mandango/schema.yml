@@ -1,0 +1,7 @@
+Model\MastopMenuBundle\Menu:
+    fields:
+        menuName: string
+        ordem:    integer
+        name:     string
+        role:     string
+        url:      string
