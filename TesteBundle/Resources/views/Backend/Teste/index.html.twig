@@ -1,13 +1,61 @@
 {% extends '::backend.html.twig' %}
-        
-{% block title %}Fernando - Teste{% endblock %}
 
+{% block title "Symfony - Demos" %}
+
+{% block content_header '' %}
 
 {% block content %}
-<h1>Admin Area! Data: {{ data }}</h1>
-<form action="{{ path('_teste_admin') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-
-    <input type="submit" />
-</form>
+    <h1>Administração do teste</h1>
+    <ul id="demo-list">
+        <li><a href="{{ url('_teste_insert') }}">Inserir teste</a></li>
+        {# <li><a href="{{ url('_demo_secured_hello', {'name': 'World'}) }}">Access the secured area</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ url('_demo_login') }}">Go to the login page</a></li> #}
+        {# <li><a href="{{ url('_demo_contact') }}">Send a Message</a></li> #}
+    </ul>
+    <table style="border: 1px solid black; padding: 5px; width: 80%;">
+        <tr style="border-bottom: 1px solid black;">
+            <td style="padding: 5px;">
+                #
+            </td>
+            <td style="padding: 5px;">
+                Título do Teste
+            </td>
+            <td style="padding: 5px;">
+                Descrição do Teste
+            </td>
+            <td style="padding: 5px;">
+                Ordem do teste
+            </td>
+            <td style="padding: 5px; text-align: center;">
+                Acao
+            </td>
+        </tr>
+        {% for user, subInfo in users %}
+        <tr>
+            <td style="padding: 5px;">
+                {{ loop.index }}
+            </td style="padding: 5px;">
+            {% for info in subInfo %}
+            <td style="padding: 5px;">
+                {{ info }}
+            </td style="padding: 5px;">
+            {% endfor %}
+            <td style="padding: 5px;">
+                <a href="{{ path('_teste_edit', {'id': user }) }}">
+                    <img src="{{ asset('bundles/mastopuser/images/button/edit.png') }}" alt="Editar">
+                </a> 
+                <a href="{{ path('_teste_pre_delete', { 'id' : user }) }}">
+                    <img src="{{ asset('bundles/mastopuser/images/button/delete.png') }}" alt="Deletar">
+                </a> 
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br /><br /><br />
+    <ul id="demo-list">
+        <li><a href="{{ url('_teste_insert') }}">Inserir teste</a></li>
+        {# <li><a href="{{ url('_demo_secured_hello', {'name': 'World'}) }}">Access the secured area</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ url('_demo_login') }}">Go to the login page</a></li> #}
+        {# <li><a href="{{ url('_demo_contact') }}">Send a Message</a></li> #}
+    </ul>
+    <br /><br /><br />
+    {#% render "MastopUserBundle:User:adminUser" %#}
 {% endblock %}
