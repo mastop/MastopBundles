@@ -81,12 +81,7 @@ class FileLocator extends BaseFileLocator
         if($this->activeTheme !== $this->theme->getName()) {
             $this->setActiveTheme($this->theme->getName());
         }
-        
-        if(1 === 1){
-            $this->paths[] = $this->path . "/" . $this->activeTheme . "/Backend";
-        }else{
-            $this->paths[] = $this->path . "/" . $this->activeTheme . "/Frontend";
-        }
+
         if ('@' === $name[0]) {
             return $this->locateResource($name, $this->path, $first);
         }
