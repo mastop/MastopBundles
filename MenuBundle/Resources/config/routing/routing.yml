@@ -1,0 +1,9 @@
+_frontend:
+    resource: "@MastopMenuBundle/Controller/Frontend/MenuController.php"
+    type: annotation
+    prefix:   /
+    
+_backend:
+    resource: "@MastopMenuBundle/Controller/Backend/MenuController.php"
+    type: annotation
+    prefix:   /admin
