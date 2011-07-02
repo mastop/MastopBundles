@@ -19,7 +19,8 @@ class MenuController extends Controller{
     public function indexAction()
     {
         $arrayMenu = $this->get('doctrine.odm.mongodb.document_manager')
-                ->getRepository('MastopMenuBundle:Menu')->findAll();
+                ->getRepository('MastopMenuBundle:Menu')
+                ->findAll();
         $ret = array();
         foreach($arrayMenu as $k => $v){
             $ret[$k]['menuName'] = $v->getMenuName();
@@ -41,14 +42,36 @@ class MenuController extends Controller{
     {
         $factory = $this->get('form.factory');
         $form = $factory->create(new MenuForm());
-        return $this->render('MastopMenuBundle:Menu:new.html.twig', array(
+        return array(
             'form' => $form->createView(),
-            ));
+            );
+    }
+    
+    /**
+     * @Route("/edit/{id}", name="_menu_admin_edit")
+     * @Template()
+     */
+    public function editAction($id)
+    {
+        $mongo = $this->get('doctrine.odm.mongodb.document_manager');
+        $menu = $mongo->getRepository('MastopMenuBundle:Menu')
+                ->find($id);
+        if(!$menu){
+            $this->get('session')->setFlash('notice', "Erro ao editar o menu de id: $id");
+            return true;
+        }else{
+            $form = $this->get('form.factory')
+                    ->create(new MenuForm());
+            $form->setData($menu);
+            return array(
+                'form' => $form->createView(),
+                'id'   => $id,
+            );
+        }
     }
     
     /**
      * @Route("/store", name="_menu_admin_store")
-     * @Template()
      */
     public function storeAction()
     {
@@ -57,21 +80,60 @@ class MenuController extends Controller{
         $form = $this->get('form.factory')->create(new MenuForm());
         if($request->getMethod() == 'POST'){
             $form->bindRequest($request);
+            $menu = $form->getData();
             if ($form->isValid()) {
-                $menu = $form->getData();
-                //$menu = new Menu();
-                //exit(print_r($menu));
-                $mongo->persist($menu);
+                $id = $request->request->get('id');
+                if($id){
+                    $menu->setId($id);
+                    $mongo->merge($menu);
+                }else{
+                    $mongo->persist($menu);
+                }
                 $mongo->flush();
                 $this->get('session')->setFlash('notice', 'Menu cadastrado com sucesso');
             }else{
                 $this->get('session')->setFlash('notice', 'Erro! Poha!');
-                 return $this->render('MastopMenuBundle:Menu:new.html.twig', array('form' => $form->createView()));
+                return $this->render('MastopMenuBundle:Menu:new.html.twig', array('form' => $form->createView()));
             }
-            return $this->redirect($this->generateUrl('_menu'));
+            return $this->redirect($this->generateUrl('_menu_admin'));
         }
     }
     
+    /**
+     * @Route("/confirm/delete/{id}", name="_menu_admin_confirm_delete")
+     * @Template()
+     */
+    public function confirmDeleteAction($id)
+    {
+        $mongo = $this->get('doctrine.odm.mongodb.document_manager')
+                ->getRepository('MastopMenuBundle:Menu')
+                ->find($id);
+                
+        return array(
+            'name' => $mongo->getName(),
+            'id'   => $mongo->getId(),
+        );
+        
+    }
+    
+    /**
+     * @Route("/delete/{id}", name="_menu_admin_delete")
+     * @Template()
+     */
+    public function deleteAction($id)
+    {
+        $mongo = $this->get('doctrine.odm.mongodb.document_manager');
+        $menu = $mongo->getRepository('MastopMenuBundle:Menu')
+                ->find($id);
+        $mongo->remove($menu);
+        if($mongo->flush()){
+            $this->get('session')->setFlash('notice', 'Menu deletado com sucesso!');
+        }else{
+            $this->get('session')->setFlash('notice', 'Erro ao deletar menu!');
+        }
+            return $this->redirect($this->generateUrl('_menu_admin'));
+    }
+
     /**
      * @Route("/render/{menuName}", name="_menu_admin_render")
      * @Template()
