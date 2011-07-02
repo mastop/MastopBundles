@@ -67,7 +67,27 @@
 <body>
 {# Main #}
 <div id="wrapper">
-
+{# Mensagens do Sistema #}
+{% if app.session.hasFlash('error') %}
+<div class="alert alert_red">
+    <img height="24" width="24" src="{{ asset('themes/mastop/admin/images/icons/large/white/acces_denied_sign.png') }}" />
+    <strong>Erro: </strong> {{ app.session.flash('error')|raw }}
+</div>
+{% endif %}
+{% if app.session.hasFlash('ok') %}
+   
+<div class="alert alert_green">
+    <img height="24" width="24" src="{{ asset('themes/mastop/admin/images/icons/large/white/light_bulb.png') }}" />
+    {{ app.session.flash('ok')|raw }}
+</div>
+{% endif %}
+{% if app.session.hasFlash('notice') %}
+<div class="alert alert_grey">
+    <img height="24" width="24" src="{{ asset('themes/mastop/admin/images/icons/large/grey/info___about.png') }}" />
+    <strong>Aviso: </strong> {{ app.session.flash('notice')|raw }}
+</div>
+{% endif %}
+{# /Mensagens do Sistema #}
 {# Topbar #}
 <div id="topbar" class="clearfix container_12">
 	
@@ -99,26 +119,6 @@
 
 {# MainContainer #}
 <div id="main_container" class="main_container container_12 clearfix">
-{# Mensagens do Sistema #}
-{% if app.session.hasFlash('error') %}
-<div class="alert alert_red">
-    <img height="24" width="24" src="{{ asset('themes/mastop/admin/images/icons/small/white/Alert.png') }}" />
-    <strong>Erro: </strong> {{ app.session.flash('error')|raw }}
-</div>
-{% endif %}
-{% if app.session.hasFlash('ok') %}
-<div class="alert alert_green">
-    <img height="24" width="24" src="{{ asset('themes/mastop/admin/images/icons/small/white/Finish%20Flag.png') }}" />
-    {{ app.session.flash('ok')|raw }}
-</div>
-{% endif %}
-{% if app.session.hasFlash('notice') %}
-<div class="alert alert_grey">
-    <img height="24" width="24" src="{{ asset('themes/mastop/admin/images/icons/small/white/Speech%20Bubble%202.png') }}" />
-    <strong>Aviso: </strong> {{ app.session.flash('notice')|raw }}
-</div>
-{% endif %}
-{# /Mensagens do Sistema #}
 
 {# Navigation #}
 <div id="nav_top" class="clearfix round_top">
@@ -201,6 +201,7 @@
 	</ul>	
 </div><!-- #nav_top -->
 {# /Navigation #}
+
 {# Breadcrumb #}
 <ul id="breadcrumb" class="grad_colour">
     <li><a href="#">Home</a></li>
