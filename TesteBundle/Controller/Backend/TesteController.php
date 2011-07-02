@@ -13,13 +13,16 @@ use Mastop\TesteBundle\Entity\Teste;
 class TesteController extends Controller {
 
     /**
-     * @Route("/admin/", name="_teste_admin"),
+     * @Route("/", name="_teste_admin"),
      * @Route("/super/")
      * @Template()
      */
     public function indexAction() {
         $ret = array();
         $ret['data'] = date("d/m/Y H:i:s");
+        $this->get('session')->setFlash('ok', 'Tudo Certo!');
+        $this->get('session')->setFlash('error', 'Tudo Errado!');
+        $this->get('session')->setFlash('notice', 'Só avisando!');
         $form = $this->createFormBuilder(new Teste())
             ->add('name', 'text')
             ->add('price', 'money', array('currency' => 'BRL'))
