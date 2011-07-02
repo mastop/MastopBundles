@@ -19,6 +19,9 @@ class TesteController extends Controller {
     public function indexAction() {
         $mastopThemes = $this->get('mastop.themes');
         //$mastopThemes->setName("outro");
+        $this->get('session')->setFlash('ok', 'Tudo Certo!');
+        $this->get('session')->setFlash('error', 'Tudo Errado!');
+        $this->get('session')->setFlash('notice', 'Só avisando!');
         return array('fer' => $mastopThemes->getName());
     }
 }
