@@ -1,0 +1,36 @@
+{% extends "::backend.html.twig" %}
+
+{% block title%}
+    Lista de menus
+{% endblock%}
+
+{% block content %}
+    <h1>Menus:</h1>
+    <a href="{{ path('_menu_admin_new') }}">Novo Menu!</a><br />
+    <div class="grid_12">
+        <table style="border: 2px solid black; width: 100%;">
+            <tr>
+                <th style="text-align: center; border: 2px solid black;">Menu Name</th>
+                <th style="text-align: center; border: 2px solid black;">Name</th>
+                <th style="text-align: center; border: 2px solid black;">Role</th>
+                <th style="text-align: center; border: 2px solid black;">Url</th>
+            </tr>
+            {% for k , j in menu %}
+                <tr>
+                {% for name in j %}
+                    <td style="border-top: 2px solid black; text-align: center;">
+                        {% if name != "" or name == 0%}
+                            {{ name }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+     
+{% endblock %}
+
+{% set code = code(_self) %}

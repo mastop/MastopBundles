@@ -41,9 +41,9 @@ class MenuController extends Controller{
     {
         $factory = $this->get('form.factory');
         $form = $factory->create(new MenuForm());
-        return array(
+        return $this->render('MastopMenuBundle:Menu:new.html.twig', array(
             'form' => $form->createView(),
-            );
+            ));
     }
     
     /**
