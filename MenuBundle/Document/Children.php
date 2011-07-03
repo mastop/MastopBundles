@@ -3,14 +3,14 @@ namespace Mastop\MenuBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
-/** 
- * @ODM\Document(
- *   collection="menu",
- *   repositoryClass="Mastop\MenuBundle\Document\MenuRepository"
- * )
- * @ODM\UniqueIndex(keys={"bundle"="asc", "name"="asc"})
+/**
+ * Representa um Child de Menu
+ *
+ * @author   Rafael Basquens <rafael@basquens.com>
+ *
+ * @ODM\EmbeddedDocument
  */
-class Menu {
+class Children{
     
     /**
      * Id
@@ -58,7 +58,7 @@ class Menu {
      * @ODM\String
      */
     protected $url;
-   
+    
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();

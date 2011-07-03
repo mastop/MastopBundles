@@ -18,13 +18,12 @@ class MenuController extends Controller{
      */
     public function indexAction()
     {
-        $arrayMenu = $this->get('doctrine.odm.mongodb.document_manager')
-                ->getRepository('MastopMenuBundle:Menu')
-                ->findAll();
+        $mongo = $this->get('doctrine.odm.mongodb.document_manager')
+                ->getRepository('MastopMenuBundle:Menu');
+        $menu = $mongo->findAll();
         $ret = array();
-        foreach($arrayMenu as $k => $v){
+        foreach($menu as $k => $v){
             $ret[$k]['menuName'] = $v->getMenuName();
-            $ret[$k]['ordem'] = $v->getOrdem();
             $ret[$k]['name'] = $v->getName();
             $ret[$k]['role'] = $v->getRole();
             $ret[$k]['url'] = $v->getUrl();
@@ -35,27 +34,41 @@ class MenuController extends Controller{
     }
     
     /**
-     * @Route("/new", name="_menu_admin_new")
+     * @Route("/novo", name="_menu_admin_new")
      * @Template()
      */
     public function newAction()
     {
-        $factory = $this->get('form.factory');
-        $form = $factory->create(new MenuForm());
+        $mongo = $this->get('doctrine.odm.mongodb.document_manager')
+                ->getRepository('MastopMenuBundle:Menu');
+        $fatherArray = $mongo->findAll();
+        foreach($fatherArray as $k => $v){
+            $father[$v->getId()] = $v->getMenuName();
+        }
+        $menu = new Menu();
+        $form = $this->createFormBuilder()
+                ->add('menuName', 'text')
+                ->add('name', 'text')
+                ->add('role', 'text')
+                ->add('url', 'text')
+                ->add('father', 'choice', array(
+                    'choices' => $father
+                ))
+                ->getForm();
         return array(
             'form' => $form->createView(),
             );
     }
     
     /**
-     * @Route("/edit/{id}", name="_menu_admin_edit")
+     * @Route("/editar/{id}", name="_menu_admin_edit")
      * @Template()
      */
     public function editAction($id)
     {
-        $mongo = $this->get('doctrine.odm.mongodb.document_manager');
-        $menu = $mongo->getRepository('MastopMenuBundle:Menu')
-                ->find($id);
+        $mongo = $this->get('doctrine.odm.mongodb.document_manager')
+                ->getRepository('MastopMenuBundle:Menu');
+        $menu = $mongo->find($id);
         if(!$menu){
             $this->get('session')->setFlash('notice', "Erro ao editar o menu de id: $id");
             return true;
@@ -71,24 +84,23 @@ class MenuController extends Controller{
     }
     
     /**
-     * @Route("/store", name="_menu_admin_store")
+     * @Route("/armazenar", name="_menu_admin_store")
      */
     public function storeAction()
     {
-        $mongo = $this->get('doctrine.odm.mongodb.document_manager');
         $request = $this->get('request');
-        $form = $this->get('form.factory')->create(new MenuForm());
+        $id = $request->request->get('id');
+        $mongo = $this->get('doctrine.odm.mongodb.document_manager');
+        if($id){
+            $menu = $mongo->getRepository('MastopMenuBundle:Menu')->find($id);
+        }else{
+            $menu = new Menu();
+        }
+        $form = $this->get('form.factory')->create(new MenuForm(), $menu);
         if($request->getMethod() == 'POST'){
             $form->bindRequest($request);
-            $menu = $form->getData();
             if ($form->isValid()) {
-                $id = $request->request->get('id');
-                if($id){
-                    $menu->setId($id);
-                    $mongo->merge($menu);
-                }else{
-                    $mongo->persist($menu);
-                }
+                $mongo->persist($menu);
                 $mongo->flush();
                 $this->get('session')->setFlash('notice', 'Menu cadastrado com sucesso');
             }else{
@@ -100,7 +112,7 @@ class MenuController extends Controller{
     }
     
     /**
-     * @Route("/confirm/delete/{id}", name="_menu_admin_confirm_delete")
+     * @Route("/confirma/deletar/{id}", name="_menu_admin_confirm_delete")
      * @Template()
      */
     public function confirmDeleteAction($id)
@@ -117,7 +129,7 @@ class MenuController extends Controller{
     }
     
     /**
-     * @Route("/delete/{id}", name="_menu_admin_delete")
+     * @Route("/deletar/{id}", name="_menu_admin_delete")
      */
     public function deleteAction($id)
     {
@@ -135,18 +147,17 @@ class MenuController extends Controller{
     }
 
     /**
-     * @Route("/render/{menuName}", name="_menu_admin_render")
+     * @Route("/renderizar/{menuName}", name="_menu_admin_render")
      * @Template()
      */
     public function renderAction($menuName)
     {
         $mongo = $this->get('doctrine.odm.mongodb.document_manager');
-        $menu = $mongo->getRepository('MastopMenuBundle:Menu')
-                ->find($menuName);
+        $menu = $mongo->getRepository('MastopMenuBundle:Menu');
+        $menus = $menu->findByMenuName($menuName);
         $ret = array();
-        foreach($menu as $k => $v){
+        foreach($menus as $k => $v){
             $ret[$k]['menuName'] = $v->getMenuName();
-            $ret[$k]['ordem'] = $v->getOrdem();
             $ret[$k]['name'] = $v->getName();
             $ret[$k]['role'] = $v->getRole();
             $ret[$k]['url'] = $v->getUrl();
