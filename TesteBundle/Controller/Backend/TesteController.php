@@ -105,10 +105,11 @@ class TesteController extends Controller
         /* Passa para o twig o form com createView(), que faz o trabalho para
          * adaptar para view
          */
-        return array(
+        return $this->render('MastopTesteBundle:Backend\Teste:teste.html.twig', array(
             'form' => $form->createView(),
-        );
+        ));
     }
+    
     
     /**
      * @Route("/editar/{id}", name="_teste_edit")
@@ -171,6 +172,10 @@ class TesteController extends Controller
          */
         $form->setData($testeObj);
         
+        return $this->render('MastopTesteBundle:Backend\Teste:teste.html.twig', array(
+            'form' => $form->createView(),
+            'id' => $id
+        ));
         return array(
             'form' => $form->createView(),
             'id' => $id
@@ -336,65 +341,32 @@ class TesteController extends Controller
     
     public function adminUserAction(){
         
-        /**/
-        $configuration = array();
+        $admin = $this->get('mastop.admin');
         
-        // Configuração do nome da listagem
+        $adminConfig = array();
         
-        $configuration['name'] = 'Users';
-        $configuration['dataClass'] = 'Model\User';
+        $configuration['name'] = 'Administração de testes';
+        $configuration['dataClass'] = 'Mastop\TesteBundle\Document\Teste';
+        $configuration['adminPath'] = '_user_admin';
         
-        // Configuração dos campos
-        
-        $campos = array();
-        $campos['nome']['label']     = 'Nome';
-        $campos['nome']['type']      = 'string';
-        
-        $campos['idade']['type']     = 'integer';
-        
-        $campos['email']['label']    = 'E-mail';
-        $campos['email']['type']     = 'string';
-        
-        $campos['username']['type']  = 'string';
-        
-        $campos['password']['label'] = 'Senha';
-        $campos['password']['type']  = 'string';
-        $campos['password']['show']  = '$dataType->getData()';
-        
-        $campos['createdAt']['type'] = 'date';
-        
-        $configuration['fields'] = $campos;
-        
-        // /Configuração dos campos
-        
-        // Configuração das actions
-        
-        $action = array();
-        
-        $action['edit']['label']   = 'Editar';
-        $action['edit']['path']    = '_user_edit'; // Seta a URL para edição, opção para todas as actions
-        
-        $action['delete']['label'] = 'Deletar'; // Seta a URL para exclusão, opção para todas as actions
-        $action['delete']['path']  = '_user_pre_delete'; // Seta a URL para exclusão, opção para todas as actions
-        
-        $configuration['action'] = $action;
-        // /Configuração das actions
-        
-        $admin = $this->get('mastop.admin.mandango');
         $admin->configure($configuration);
+        $admin
+                ->addField("title", "string",  array('label' => "Título", 'filter' => 'text'))
+                ->addField("description",'string', array('filter' => 'text'))
+                ->addField("order", 'integer', array('label' => 'Ordem'))
+                ->addField("createdAt", 'date', array('label' => 'Criado em'));
+        $admin
+                ->addAction('edit', '_teste_edit', array('label' => "Editar",'parameters' => 'id'))
+                ->addAction('delete', '_teste_pre_delete', array('label' => "Deletar",'parameters' => 'id'));
         
-        $admin->setBaseTemplate('MastopAdminBundle:Admin:default.html.twig');
+        $adminInfo = $admin->prepareAdministration();
         
-        $adminFormat = $admin->prepareAdministration();
         
-        //$admin = new AdminGen();
+        return $this->render(
+                $admin->renderAdministration(), 
+                $adminInfo);
         
-        return $this->render($admin->getBaseTemplate(), array(
-            'title' => $adminFormat['title'],
-            'header'=> $adminFormat['header'],
-            'doms'  => $adminFormat['doms']
-        ));
-        
+        exit();
         
     }
     

@@ -1,0 +1,8 @@
+Mastop\UserBundle\Entity\User:
+    properties:
+        nome:
+            - NotBlank: ~
+        idade:
+            - NotBlank: ~
+            - Min: 0
+            - Max: 100

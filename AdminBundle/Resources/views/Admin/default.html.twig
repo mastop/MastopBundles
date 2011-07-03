@@ -1,0 +1,59 @@
+    <h1>{{ title }}</h1>
+
+<table style="border: 1px solid black; padding: 5px; width: 80%;">
+    <tr style="border-bottom: 1px solid black;">
+        <td>
+            #
+        </td>
+        {% for infoHeader, headerTable in header %}
+            <td style="padding: 5px;">
+                <a href="{{ path ( adminPath ) }}?sort={{ infoHeader }}&order={{ headerTable['order'] }}">
+                    {{ headerTable['label'] }}
+                </a>
+            </td>
+        {% endfor %}
+        {% if acts|e %}
+            <td>
+                Ações
+            </td>
+        {% else %}
+            <td>&nbsp;</td>
+        {% endif %}
+    </tr>
+    <tr style="border-bottom: 1px solid black;">
+        <form action="{{ path ( adminPath ) }}" method="get">
+        <td>&nbsp;</td>
+            {% for infoFilter in filter %}
+                <td style="padding: 5px;">
+                    {{ infoFilter|raw }}
+                </td>
+            {% endfor %}
+            {% if acts|e %}
+                <td>
+                    <input type="submit" value="Pesquisar" />
+                </td>
+            {% endif %}
+        <form>
+    </tr>
+    {% for dom, subInfo in doms %}
+        <tr {{ loop.index is even ? 'class="even"' : 'class="odd"' }}>
+            <td style="padding: 5px;">
+                {{ loop.index }}
+            </td style="padding: 5px;">
+            {% for info in subInfo %}
+            <td style="padding: 5px;">
+                {{ info }}
+            </td style="padding: 5px;">
+            {% endfor %}
+            {% if acts|e %}
+                <td style="padding: 5px;">
+                    {% for act, subAct in acts[dom] %}
+                        <a href="{{ path( subAct['route'], {'id': dom } ) }}">{{ subAct['label'] }}</a>
+                    {% endfor %}
+                </td>
+            {% else %}
+                <td>&nbsp;</td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+</table>
