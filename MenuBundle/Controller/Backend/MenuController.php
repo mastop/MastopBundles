@@ -118,7 +118,6 @@ class MenuController extends Controller{
     
     /**
      * @Route("/delete/{id}", name="_menu_admin_delete")
-     * @Template()
      */
     public function deleteAction($id)
     {
@@ -126,10 +125,11 @@ class MenuController extends Controller{
         $menu = $mongo->getRepository('MastopMenuBundle:Menu')
                 ->find($id);
         $mongo->remove($menu);
+        $teste = $mongo->flush();
         if($mongo->flush()){
-            $this->get('session')->setFlash('notice', 'Menu deletado com sucesso!');
-        }else{
             $this->get('session')->setFlash('notice', 'Erro ao deletar menu!');
+        }else{
+            $this->get('session')->setFlash('notice', 'Menu deletado com sucesso!');
         }
             return $this->redirect($this->generateUrl('_menu_admin'));
     }
@@ -140,9 +140,19 @@ class MenuController extends Controller{
      */
     public function renderAction($menuName)
     {
-        $mandango = $this->get('mandango');
-        $query = $mandango->getRepository('Model\Menu')->createQuery();
-        $query->sort(array('menuName' == $menuName));
-        echo $query->getMenuName();
+        $mongo = $this->get('doctrine.odm.mongodb.document_manager');
+        $menu = $mongo->getRepository('MastopMenuBundle:Menu')
+                ->find($menuName);
+        $ret = array();
+        foreach($menu as $k => $v){
+            $ret[$k]['menuName'] = $v->getMenuName();
+            $ret[$k]['ordem'] = $v->getOrdem();
+            $ret[$k]['name'] = $v->getName();
+            $ret[$k]['role'] = $v->getRole();
+            $ret[$k]['url'] = $v->getUrl();
+        }
+        return array(
+            'menu' => $ret,
+            );
     }
 }
