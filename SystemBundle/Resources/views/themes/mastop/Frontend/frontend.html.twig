@@ -4,15 +4,15 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta http-equiv="content-language" content="{% block contentLanguage %}pt_BR{% endblock %}" />
 <meta name="robots" content="index,follow" />
-<meta name="keywords" content="{% block metaKeywords %}praticus{% endblock %}" />
-<meta name="description" content="{% block metaDescription %}Praticus é o melhor sistema de loas virtuais do Brasil{% endblock %}" />
+<meta name="keywords" content="{% block metaKeywords %}{{ mastop_param('system.seo.keywords') }}{% endblock %}" />
+<meta name="description" content="{% block metaDescription %}{{ mastop_param('system.seo.description') }}{% endblock %}" />
 <meta name="rating" content="general" />
 <meta name="author" content="Mastop Internet Development" />
 <meta name="copyright" content="Copyright © 2003-{{ "now"|date('Y') }}" />
 <meta name="generator" content="Mastop Internet Development" />
 <link href="{% block favicon %}favicon.ico{% endblock %}" rel="SHORTCUT ICON" />
 
-<title>{% block title %}Página sem Título{% endblock %} - Praticus</title>
+<title>{% block title %}Página sem Título{% endblock %} -  {{ mastop_param('system.site.name') }}</title>
                 
 {% stylesheets 'mastop/Frontend/css/*.css' filter='yui_css' output='themes/mastop/css/pack.css' %}
 <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
@@ -21,6 +21,7 @@
 <!-- Load JQuery -->		
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 {% block javascriptsHead %}{% endblock %}
+{{ mastop_param('system.script.head') }}
 </head>
 <body>
 {# Main #}
@@ -119,6 +120,7 @@
 {#/Main #}
 {# Javascripts #}
 {% block javascripts %}{% endblock %}
+{{ mastop_param('system.script.foot') }}
 {#/Javascripts #}
 </body>
 </html>
