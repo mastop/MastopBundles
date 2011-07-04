@@ -41,12 +41,10 @@
 		});
  	
  	// Content Box Tabs Config
-			$( ".tabs" ).tabs({ 
-				fx: {opacity: 'toggle', duration: 'slow'} 
-			});
+			$( ".tabs" ).tabs();
 
 			$( ".side_tabs" ).tabs({ 
-				fx: {opacity: 'toggle', duration: 'slow', height:'auto'} 
+				fx: {opacity: 'toggle', duration: 'fast', height:'auto'} 
 			});
 		
 
@@ -123,7 +121,7 @@
 		});
 		
 	// Dismiss alert box
-		$(".alert").click(function(){
+		$(".alert").not(".alert_black").click(function(){
 			$(this).fadeOut('slow');
 		});
 	
