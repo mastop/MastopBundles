@@ -15,3 +15,5 @@ ul#breadcrumb li span{
     background-position: center right;
     background-repeat: no-repeat;
 }
+
+.box .block input, .box .block textarea{width: 35%;}

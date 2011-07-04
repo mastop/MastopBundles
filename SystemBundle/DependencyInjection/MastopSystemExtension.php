@@ -33,6 +33,9 @@ class MastopSystemExtension extends Extension
         $container->setParameter('mastop.themes.active', $config['active_theme']);
         $container->setParameter('mastop.themes.themes_dir', $config['themes_dir']);
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.xml');
+        $loader->load('repository.xml');
         $loader->load('templating.xml');
+        $loader->load('twig.xml');
     }
 }
