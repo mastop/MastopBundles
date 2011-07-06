@@ -37,7 +37,8 @@ class MastopSystemExtension extends Twig_Extension
             'mastop_shorten'           => 'shorten',
             'mastop_current_url'       => 'getCurrentUrl',
             'mastop_date'              => 'formatDate',
-            'mastop_param'             => 'getParam'
+            'mastop_param'             => 'getParam',
+            'mastop_cache'             => 'getCache'
         );
 
         $functions = array();
@@ -149,6 +150,11 @@ class MastopSystemExtension extends Twig_Extension
     public function getParam($key)
     {
         return $this->container->get('mastop')->param($key);
+    }
+    public function getCache($key, $default = null)
+    {
+        $cache = $this->container->get('mastop')->getCache($key, $default);
+        return (is_string($cache)) ? $cache : false;
     }
 
     /**

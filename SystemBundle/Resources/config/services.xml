@@ -8,6 +8,10 @@
         <service id="mastop" class="Mastop\SystemBundle\Mastop">
             <argument type="service" id="kernel" />
         </service>
+        <service id="mastop.data_collector" class="Mastop\SystemBundle\DataCollector\APCDataCollector" public="false">
+            <tag name="data_collector" template="MastopSystemBundle:Collector:apc" id="apc" />
+            <argument type="service" id="mastop" />
+        </service>
     </services>
 
 </container>
