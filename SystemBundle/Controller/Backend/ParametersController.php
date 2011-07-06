@@ -25,7 +25,7 @@ class ParametersController extends BaseController {
             $form->add($param->getId(), 'collection');
             foreach ($childs as $child) {
                 if($child->getUser() == 'system'){
-                    $form->get($param->getId())->add($child->getName(), $child->getFieldtype(), array_merge($child->getOpts(), array('required'=>false, 'label' => $child->getTitle(), 'data' => $child->getValue(), 'attr' => array('title' => $child->getDesc()))));
+                    $form->get($param->getId())->add($child->getName(), $child->getFieldtype(), array_merge(array('required'=>false, 'label' => $child->getTitle(), 'data' => (($child->getFieldtype() != 'checkbox') ? $child->getValue() : (bool) $child->getValue()), 'attr' => array('title' => $child->getDesc())), $child->getOpts()));
                 }
             }
         }
