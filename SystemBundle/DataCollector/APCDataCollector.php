@@ -49,6 +49,16 @@ class APCDataCollector extends DataCollector
     {
         return $this->data['apc'];
     }
+    
+    /**
+     * Pega o APC Info.
+     *
+     * @return array
+     */
+    public function getApcinfo()
+    {
+        return $this->data['apcinfo'];
+    }
 
     /**
      * {@inheritdoc}

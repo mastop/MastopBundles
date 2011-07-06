@@ -2,10 +2,10 @@
 
 {% block toolbar %}
     {% set icon %}
-        <img width="20" height="28" alt="APC" style="border-width: 0; vertical-align: middle; margin-right: 5px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQRJREFUeNpi/P//PwM1ARMDlcGogZQDlpMnT7pxc3NbA9nhQKxOpL5rQLwJiPeBsI6Ozl+YBOOOHTv+AOllQNwtLS39F2owKYZ/gRq8G4i3ggxEToggWzvc3d2Pk+1lNL4fFAs6ODi8JzdS7mMRVyDVoAMHDsANdAPiOCC+jCQvQKqBQB/BDbwBxK5AHA3E/kB8nKJkA8TMQBwLxaBIKQbi70AvTADSBiSadwFXpCikpKQU8PDwkGTaly9fHFigkaKIJid4584dkiMFFI6jkTJII0WVmpHCAixZQEXWYhDeuXMnyLsVlEQKI45qFBQZ8eRECi4DBaAlDqle/8A48ip6gAADANdQY88Uc0oGAAAAAElFTkSuQmCC"/>
+        <img width="18" height="18" alt="APC" style="border-width: 0; vertical-align: middle; margin-right: 5px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAYdJREFUOE+tkslOwlAYRn+WrtzpAyCTSJkEJAyh7YXSgQ5QhvgY7olElz6Hb+DOhTvc4kOY0A0rlsjvvaRNaglJUZuc5CY950tv0shoPFkCRM7hlw8ivH9FtndgD8foZ2CP3+zRZEqZHWC6c9xuYI+2tj2cg2UN0I9p9u+DH2eaZs6y+i/03XO1Wj1hTrADwzDRj67re0OGYRDXcQghp8wJdqBpOvpRFG1vSFVVomk96vV2Q8wJdiDLCvrpdpXH4NUkSWrIXfVT7iofbEiW5YdgB522hD8g0lwQ2kOeb4ukRTMKPSv0dCuK4pjnyahDnWAHokAwDAIvbBmHXOBbPP4H0Kw30WXTqDcWlNeQLGi38XqoVWvosqqX69mwPzhzabfyeripVNDF4TjuLOwQc2nneD2Ur0u4o1g6eog1Xg/FfAEZhVz+6CHWeD3kMhwyshnO4aLR8FejLmu8HjLpK3RxokcMMZd2jtdDOpFEl3Uylni6jMdnYWAu7dZeD6mL2DIVi+OfoBvfGjNol347nsYAAAAASUVORK5CYII%3D"/>
     {% endset %}
     {% set text %}
-        <span>{{ collector.apc.total }}</span> | <span>{{ collector.apc.hits }}</span> | <span>{{ collector.apc.misses }}</span>
+        <span>{{ collector.apc.total }}</span> | <span style="color: #759e1a">{{ collector.apc.hits }}</span> | <span style="color: #a33">{{ collector.apc.misses }}</span>
     {% endset %}
     {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
 {% endblock %}
@@ -13,7 +13,7 @@
 {% block menu %}
 <span class="label">
     <span class="icon"><img src="{{ asset('bundles/mastopsystem/images/profiler/apc.png') }}" alt="" /></span>
-    <strong>Cache</strong>
+    <strong>APC Cache</strong>
     <span class="count">
         <span>{{ collector.apc.total }}</span>
     </span>
@@ -21,25 +21,18 @@
 {% endblock %}
 
 {% block panel %}
-    <h2>Queries</h2>
+    <h2>APC Cache</h2>
 
-    {% if not collector.queries %}
+    {% if not collector.apcinfo %}
         <p>
-            <em>Query logging is disabled.</em>
+            <em>Nada encontrado no APC.</em>
         <p>
-    {% elseif not collector.querycount %}
-        <p>
-            <em>No queries.</em>
-        </p>
     {% else %}
-        <ul class="alt">
-            {% for query in collector.queries %}
-                <li class="{{ cycle(['odd', 'even'], loop.index) }}">
-                    <div>
-                        <code>{{ query }}</code>
-                    </div>
-                </li>
+        <table>
+            <tr><th>Nome</th><th>Valor</th><th>Criado</th><th>TTL</th><th>Último Acesso</th><th>Hits</th></tr>
+            {% for apc in collector.apcinfo %}
+                <tr><th><code>{{ apc.info }}</code></th><td>{{ mastop_cache(apc.info) }}</td><td>{{ mastop_date(apc.creation_time, "d/m h:i") }}</td><td>{{ apc.ttl/60/60 }} horas</td><td>{{ mastop_date(apc.access_time, "d/m h:i:s") }}</td><td>{{ apc.num_hits }}</td></tr>
             {% endfor %}
-        </ul>
+        </table>
     {% endif %}
 {% endblock %}
