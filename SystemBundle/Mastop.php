@@ -54,8 +54,8 @@ class Mastop
     public function setCache($key, $var, $ttl = null){
         return (is_null($ttl)) ? $this->getCache()->set($key, $var) : $this->getCache()->set($key, $var, $ttl);
     }
-    public function clearCache(){
-        return $this->getCache()->clear();
+    public function clearCache($type = 'user'){
+        return $this->getCache()->clear($type);
     }
     /**
      *Exemplo: param("bundle.cat.child")

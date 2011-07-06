@@ -40,41 +40,42 @@ class ParametersController extends BaseController {
         $parameters = $this->mongo('MastopSystemBundle:Parameters');
         $request = $this->getRequest();
         $form = $request->request->get('form');
+        $dm = $this->dm();
         if ('POST' == $request->getMethod()) {
             $this->mastop()->clearCache();
             foreach ($form as $tk => $tv){
                 if(is_array($tv)){
-                    foreach ($tv as $ck => $cv){
-                        $parameters->createQueryBuilder()
-                                ->update()
-                                ->field('id')->equals($tk)
-                                ->field('children.name')->equals($ck)
-                                ->field('children.$.value')->set($cv)
-                                ->getQuery()
-                                ->execute();
+                    $param = $parameters->findOneById($tk);
+                    if($param){
+                        $childs = $param->getChildren();
+                        foreach ($childs as $c => $cv){
+                            if(isset ($tv[$cv->getName()])){
+                                $cv->setValue($tv[$cv->getName()]);
+                            }elseif($cv->getFieldtype() == 'checkbox' && $cv->getUser() == 'system'){
+                                $cv->setValue('0'); // Se for checkbox, desmarca pois o mesmo não é enviado no POST
+                            }
+                        }
+                        $dm->persist($param);
                     }
                 }
             }
+            $dm->flush();
             $this->get('session')->setFlash('ok', 'Preferências Atualizadas!');
             return $this->redirect($this->generateUrl('admin_system_parameters_index'));
         }else{
-            $this->get('session')->setFlash('erro', 'Você não pode acessar esta página.');
+            $this->get('session')->setFlash('error', 'Você não pode acessar esta página.');
             return $this->redirect($this->generateUrl('admin_system_parameters_index'));
         }
     }
 
     /**
-     * @Route("/deletar/{id}", name="admin_core_city_delete")
+     * @Route("/clearcache", name="admin_system_parameters_clearcache")
      */
-    public function deleteAction($id) {
-        $dm = $this->get('reurbano.dm');
-        $city = $this->get('reurbano.repository.city')->find($id);
-        if (!$city)
-            throw $this->createNotFoundException('Nenhuma cidade encontrada com o ID ' . $id);
-        $dm->remove($city);
-        $dm->flush();
-        $this->get('session')->setFlash('ok', 'Cidade Deletada!');
-        return $this->redirect($this->generateUrl('admin_core_city_index'));
+    public function clearcacheAction() {
+        $this->mastop()->clearCache('user');
+        $this->mastop()->clearCache('system');
+        $this->get('session')->setFlash('ok', 'Cache Limpo!');
+        return $this->redirect($this->generateUrl('admin_system_parameters_index'));
     }
 
 }
