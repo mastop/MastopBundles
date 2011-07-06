@@ -45,4 +45,19 @@ abstract class BaseController extends Controller {
         }
         return $this->dm->getRepository($repository);
     }
+    /**
+     * Exemplo: $this->trans('Fernando Lindo');
+     * Exemplo: $this->trans('Fernando %adjetivo%', array('%adjetivo%'=>'Bonito'));
+     * Exemplo: $this->trans('Fernando Legal', array(), 'adjetivos'); // Arquivo de tradução será procurado em Resources/translations/adjetivos.ptBR.yml
+     * Exemplo: $this->trans('Boa tarde!', array(), 'messages', 'en'); // Arquivo de tradução será procurado em Resources/translations/messages.en.yml
+     * 
+     * @param type $msg Texto a traduzir
+     * @param array $parameters Parâmetros para substituição
+     * @param type $domain Arquivo de tradução
+     * @param type $locale Linguagem
+     * @return type string
+     */
+    public function trans($msg, array $parameters = array(), $domain = 'messages', $locale = null){
+        return $this->get('translator')->trans($msg, $parameters, $domain, $locale);
+    }
 }
