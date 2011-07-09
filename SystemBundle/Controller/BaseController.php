@@ -37,7 +37,12 @@ abstract class BaseController extends Controller {
         return $this->dm;
     }
     /**
-     * @return Doctrine\ODM\MongoDB\DocumentRepository
+     * Exemplo: $this->mongo("MastopSystemBundle:Parameters")
+     * Exemplo: $this->mongo("MastopSystemBundle:Parameters", "OutroDocumentManager")
+     * 
+     * @param string $repository
+     * @param string $dm
+     * @return Mastop\SystemBundle\Document\BaseRepository
      */
     public function mongo($repository, $dm = null) {
         if (is_null($this->dm)) {
