@@ -65,4 +65,13 @@ abstract class BaseController extends Controller {
     public function trans($msg, array $parameters = array(), $domain = 'messages', $locale = null){
         return $this->get('translator')->trans($msg, $parameters, $domain, $locale);
     }
+    /**
+     * Verifica se o usuário tem determinado ROLE
+     * 
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole($role){
+        return $this->get('security.context')->isGranted($role);
+    }
 }
