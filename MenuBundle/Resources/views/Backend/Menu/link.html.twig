@@ -1,0 +1,68 @@
+{% extends '::backend.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block javascriptsHead %}
+{% javascripts '@MastopMenuBundle/Resources/public/js/menu.js' filter='yui_js' output='bundles/mastopmenu/js/menu.js' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+
+
+{% block content %}
+<div class="box grid_12">
+    <h2 class="box_head grad_colour">{{title}}</h2>
+        <div class="content block" style="padding:0">
+        <form action="{{ path("admin_menu_menu_saveitem") }}" method="post">
+            <input type="hidden" name="id" value="{{id}}" />
+            <input type="hidden" name="code" value="{{code}}" />
+            <input type="hidden" name="codeEdit" value="{{link.getCode()}}" />
+            <div class="flat_area m10">
+                <div class="grid_5">
+                <label>Texto do Link</label> 
+                <input name="menuItemName" type="text" class="large" title="Digite o texto que irá no link" value="{{link.getName()}}" />
+                <label>Título do Link</label> 
+                <input name="menuItemTitle" type="text" class="large" title="Digite o que aparecerá no parâmetro 'title' do link" value="{{link.getTitle()}}" />
+                <label>Abrir em Nova Janela?</label> 
+                <select name="menuItemNewWindow">
+                    <option value="0" {%if link.getNewWindow() == false %}selected{%endif%}>
+                            Não
+                    </option>
+                    <option value="1" {%if link.getNewWindow() == true %}selected{%endif%}>
+                            Sim
+                    </option>
+                </select>
+                </div>
+                <div class="grid_5">
+                <label>Link</label> 
+                <input name="menuItemUrl" type="text" class="large" title="Digite a URL do link no menu" value="{{link.getUrl()}}" />
+                <label>Ordem</label> 
+                <input name="menuItemOrder" type="text" class="small" title="Digite a ordem do link no menu" value="{{link.getOrder()}}" />
+                <label>Permissão para Vizualização</label>
+                <div class="input_group">
+                        <select name="menuItemRole">
+                                <option value="all" {%if link.getRole() is null %}selected{%endif%}>
+                                        Todos
+                                </option>
+
+                                <option value="ROLE_USER" {%if link.getRole() == 'ROLE_USER' %}selected{%endif%}>
+                                        Apenas Usuários Logados
+                                </option>
+                                <option value="ROLE_ADMIN" {%if link.getRole() == 'ROLE_ADMIN' %}selected{%endif%}>
+                                        Apenas Administradores
+                                </option>
+                                {% if is_granted('ROLE_SUPERADMIN') %}
+                                <option value="ROLE_SUPERADMIN" {%if link.getRole() == 'ROLE_SUPERADMIN' %}selected{%endif%}>
+                                        Apenas Mastop
+                                </option>
+                                {% endif %}
+                        </select>
+                </div>
+            </div>
+            <div class="clearfix"></div>    
+            </div>
+            <button class="button green m10"><span>Salvar</span></button> <a class="button red" href="javascript:history.go(-1);">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
