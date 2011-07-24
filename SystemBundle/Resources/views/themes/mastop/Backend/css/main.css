@@ -967,7 +967,7 @@ form .LV_invalid{
 	border-radius: 3px;
 }
 
-.alert:hover{
+.close:hover{
 	cursor: pointer;
 }
 

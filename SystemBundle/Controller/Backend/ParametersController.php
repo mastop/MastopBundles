@@ -6,7 +6,6 @@ use Mastop\SystemBundle\Controller\BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Mastop\SystemBundle\Document\Parameters;
-use Mastop\SystemBundle\Form\ParametersType;
 
 class ParametersController extends BaseController {
 

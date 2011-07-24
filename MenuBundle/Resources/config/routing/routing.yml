@@ -1,0 +1,4 @@
+menu_backend:
+    resource: "@MastopMenuBundle/Controller/Backend/MenuController.php"
+    type: annotation
+    prefix:   /admin/menu
