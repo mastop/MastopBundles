@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt_BR" lang="pt_BR">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" xml:lang="pt_BR" lang="pt_BR">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta http-equiv="content-language" content="{% block contentLanguage %}pt_BR{% endblock %}" />
 <meta name="robots" content="index,follow" />
 <meta name="keywords" content="{% block metaKeywords %}praticus{% endblock %}" />
-<meta name="description" content="{% block metaDescription %}Praticus é o melhor sistema de loas virtuais do Brasil{% endblock %}" />
+<meta name="description" content="{% block metaDescription %}Praticus é o melhor sistema de lojas virtuais do Brasil{% endblock %}" />
 <meta name="rating" content="general" />
 <meta name="author" content="Mastop Internet Development" />
 <meta name="copyright" content="Copyright © 2003-{{ "now"|date('Y') }}" />
@@ -26,7 +26,11 @@
 <link rel="apple-touch-startup-image" href="{{ asset('themes/mastop/admin/images/iOS_startup.png') }}">
     
 
-{% stylesheets 'mastop/Backend/css/all.css' 'mastop/Backend/css/layout_fixed.css' 'mastop/Backend/css/header_top.css' 'mastop/Backend/css/mastop.css' filter='yui_css' output='themes/mastop/admin/css/pack.css' %}
+{% stylesheets 'mastop/Frontend/silk/silk-sprite.css' filter='yui_css' output='themes/mastop/silk/silk-sprite.css' %}
+<link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+{% endstylesheets %}
+
+{% stylesheets 'mastop/Backend/css/all.css' 'mastop/Backend/css/layout_fixed.css' 'mastop/Backend/css/header_top.css' filter='yui_css' output='themes/mastop/admin/css/pack.css' %}
 <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
 {% endstylesheets %}
 
@@ -34,6 +38,9 @@
 <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
 {% endstylesheets %}
 
+{% stylesheets 'mastop/Backend/css/mastop.css' filter='yui_css' output='themes/mastop/admin/css/mastop.css' %}
+<link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+{% endstylesheets %}
 {#
 <!-- These stylesheets are used  -->
 <link rel="stylesheet" type="text/css" href="/themes/mastop/admin/css/theme/switcher.css" media="screen" />
@@ -71,20 +78,20 @@
 {% if app.session.hasFlash('error') %}
 <div class="alert alert_red">
     <img height="24" width="24" src="{{ asset('themes/mastop/admin/images/icons/large/white/acces_denied_sign.png') }}" />
-    <strong>Erro: </strong> {{ app.session.flash('error')|raw }}
+    <strong>Erro: </strong> {{ app.session.flash('error')|raw }}<span class="close disabled ui-silk ui-silk-cancel"></span>
 </div>
 {% endif %}
 {% if app.session.hasFlash('ok') %}
    
 <div class="alert alert_green">
     <img height="24" width="24" src="{{ asset('themes/mastop/admin/images/icons/large/white/light_bulb.png') }}" />
-    {{ app.session.flash('ok')|raw }}
+    {{ app.session.flash('ok')|raw }}<span class="close disabled ui-silk ui-silk-cancel"></span>
 </div>
 {% endif %}
 {% if app.session.hasFlash('notice') %}
 <div class="alert alert_grey">
     <img height="24" width="24" src="{{ asset('themes/mastop/admin/images/icons/large/grey/info___about.png') }}" />
-    <strong>Aviso: </strong> {{ app.session.flash('notice')|raw }}
+    <strong>Aviso: </strong> {{ app.session.flash('notice')|raw }}<span class="close disabled ui-silk ui-silk-cancel"></span>
 </div>
 {% endif %}
 {# /Mensagens do Sistema #}

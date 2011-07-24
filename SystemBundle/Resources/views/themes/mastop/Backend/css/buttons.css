@@ -1,6 +1,6 @@
 /* Blue .main_container button */
 
-.main_container button.blue, .alert_blue, .calendar_blue{
+.alert_blue, .calendar_blue{
 
 	background: #1C5EA0; /* old browsers */
 	
@@ -23,23 +23,9 @@
 zoom:1;
 }
 
-.main_container button.blue:hover, .alert_blue:hover, .calendar_blue:hover;{
-
-	background: #064792; /* old browsers */
-	
-	background: -moz-linear-gradient(top, #064792 0%, #1C5EA0 99%); /* firefox */
-	
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#064792), color-stop(99%,#1C5EA0)); /* webkit */
-	
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#064792', endColorstr='#1C5EA0',GradientType=0 ); /* ie */
-
-	zoom:1;	
-}
-
-
 /* Black .main_container button */
 
-.main_container button.black, .alert_black, .calendar_black{
+.alert_black, .calendar_black{
 
 	background: #4c5766; /* old browsers */
 	
@@ -63,22 +49,9 @@ zoom:1;
 	zoom:1;
 }
 
-.main_container button.black:hover, .alert_black:hover, .calendar_black_hover{
-
-	background: #313841; /* old browsers */
-	
-	background: -moz-linear-gradient(top, #313841 0%, #4c5766 99%); /* firefox */
-	
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#313841), color-stop(99%,#4c5766)); /* webkit */
-	
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#313841', endColorstr='#4c5766',GradientType=0 ); /* ie */
-
-	zoom:1;	
-}
-
 /* Navy .main_container button */
 
-.main_container button.navy, .alert_navy, .calendar_navy{
+.alert_navy, .calendar_navy{
 
 	background: #2b4356; /* old browsers */
 	
@@ -101,23 +74,10 @@ zoom:1;
 	zoom:1;
 }
 
-.main_container button.navy:hover, .alert_navy:hover, .calendar_navy:hover{
-
-	background: #122b45; /* old browsers */
-	
-	background: -moz-linear-gradient(top, #122b45 0%, #2b4356 99%); /* firefox */
-	
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#122b45), color-stop(99%,#2b4356)); /* webkit */
-	
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#122b45', endColorstr='#2b4356',GradientType=0 ); /* ie */
-
-	zoom:1;	
-}
-
 /* Red .main_container button */
 
 
-.main_container button.red, .alert_red, .calendar_red{
+.alert_red, .calendar_red{
 
 	background: #9e253b; /* old browsers */
 
@@ -140,22 +100,9 @@ zoom:1;
 	zoom:1;
 }
 
-.main_container button.red:hover, .alert_red:hover, .calendar_red:hover{
-
-	background: #7C1F30; /* old browsers */
-
-	background: -moz-linear-gradient(top, #7C1F30 0%, #9e253b 99%); /* firefox */
-
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7C1F30), color-stop(99%,#9e253b)); /* webkit */
-
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7C1F30', endColorstr='#9e253b',GradientType=0 ); /* ie */
-
-	zoom:1;	
-}
-
 /* Green .main_container button */
 
-.main_container button.green, .alert_green, .calendar_green{
+.alert_green, .calendar_green{
 
 	background: #3d8336; /* old browsers */
 	
@@ -178,24 +125,10 @@ zoom:1;
 	zoom:1;
 }
 
-.main_container button.green:hover, .alert_green:hover, .calendar_green:hover{
-
-	background: #277423; /* old browsers */
-	
-	background: -moz-linear-gradient(top, #277423 0%, #3d8336 99%); /* firefox */
-	
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#277423), color-stop(99%,#3d8336)); /* webkit */
-	
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#277423', endColorstr='#3d8336',GradientType=0 ); /* ie */
-
-	zoom:1;	
-}
-
-
 /* Orange .main_container button */
 
 
-.main_container button.orange, .alert_orange, .calendar_orange{
+.alert_orange, .calendar_orange{
 
 	background: #ca6705; /* old browsers */
 	
@@ -218,25 +151,10 @@ zoom:1;
 	zoom:1;
 }
 
-.main_container button.orange:hover, .alert_orange:hover, .calendar_orange:hover{
-
-	background: #ae5905; /* old browsers */
-	
-	background: -moz-linear-gradient(top, #ae5905 0%, #ca6705 99%); /* firefox */
-	
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ae5905), color-stop(99%,#ca6705)); /* webkit */
-	
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ae5905', endColorstr='#ca6705',GradientType=0 ); /* ie */
-
-	zoom:1;	
-}
-
-
-
 /* Magenta .main_container button */
 
 
-.main_container button.magenta, .alert_magenta, .calendar_magenta{
+.alert_magenta, .calendar_magenta{
 
 	background: #9B6CA6; /* old browsers */
 	
@@ -259,21 +177,7 @@ zoom:1;
 	zoom:1;
 }
 
-.main_container button.magenta:hover, .alert_magenta:hover, .calendar_magenta:hover{
-
-	background: #8D579A; /* old browsers */
-	
-	background: -moz-linear-gradient(top, #8D579A 0%, #9B6CA6 99%); /* firefox */
-	
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#8D579A), color-stop(99%,#9B6CA6)); /* webkit */
-	
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8D579A', endColorstr='#9B6CA6',GradientType=0 ); /* ie */
-
-	zoom:1;	
-}
-
-
-.main_container button.black, .alert_black
+.alert_black
 {
 
 background: #4c5766; /* old browsers */
@@ -292,25 +196,7 @@ zoom:1;
 
 
 
-.main_container button.black:hover, .alert_black:hover
-{
-
-background: #313841; /* old browsers */
-
-background: -moz-linear-gradient(top, #313841 0%, #4c5766 99%); /* firefox */
-
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#313841), color-stop(99%,#4c5766)); /* webkit */
-
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#313841', endColorstr='#4c5766',GradientType=0 ); /* ie */
-
-
-border:1px solid #4c5766;
-	
-zoom:1;
-}
-
-
-.main_container button.grey, .alert_grey, .calendar_grey, .calendar_grey > .fc-event-skin
+.alert_grey, .calendar_grey, .calendar_grey > .fc-event-skin
 {
 background: #DFE2E4; /* old browsers */
 
@@ -327,19 +213,3 @@ zoom:1;
 color:#333 !important;
 text-shadow: 0 1px 0px #fff !important;
 }
-
-
-
-.main_container button.grey:hover, .alert_grey:hover, .calendar_grey:hover
-{
-background: #E6ECEF; /* old browsers */
-
-background: -moz-linear-gradient(top, #D0D6DA 0%, #E6ECEF 99%); /* firefox */
-
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#D0D6DA), color-stop(99%,#E6ECEF)); /* webkit */
-
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#D0D6DA', endColorstr='#E6ECEF',GradientType=0 ); /* ie */
-	
-zoom:1;
-}
-
