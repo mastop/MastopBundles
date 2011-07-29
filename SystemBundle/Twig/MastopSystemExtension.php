@@ -38,7 +38,8 @@ class MastopSystemExtension extends Twig_Extension
             'mastop_current_url'       => 'getCurrentUrl',
             'mastop_date'              => 'formatDate',
             'mastop_param'             => 'getParam',
-            'mastop_cache'             => 'getCache'
+            'mastop_cache'             => 'getCache',
+            'debug'                    => 'debug'
         );
 
         $functions = array();
@@ -154,7 +155,18 @@ class MastopSystemExtension extends Twig_Extension
     public function getCache($key, $default = null)
     {
         $cache = $this->container->get('mastop')->getCache($key, $default);
-        return (is_string($cache)) ? $cache : false;
+        if(is_array($cache)){
+            return '<pre>'.print_r($cache, true).'</pre>';
+        }  elseif (is_string($cache)) {
+            return (empty($cache)) ? '{vazio}' : $cache;
+        }  elseif (is_object($cache)) {
+            return '{objeto '.get_class($cache).'}';
+        }
+        return $cache;
+    }
+    public function debug($var)
+    {
+        return '<pre>'.print_r($var, true).'</pre>';
     }
 
     /**

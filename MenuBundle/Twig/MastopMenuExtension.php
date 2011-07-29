@@ -41,10 +41,9 @@ class MastopMenuExtension extends Twig_Extension
         return $functions;
     }
     
-    public function menu($key, $default = null)
+    public function menu($menu, $item = null, $current = null, $depth = 0, $template = 'list', $attributes = array())
     {
-        $cache = $this->container->get('mastop')->getCache($key, $default);
-        return (is_string($cache)) ? $cache : false;
+        return $this->container->get('mastop.menu')->render($menu, $item, $current, $depth, $template, $attributes);
     }
 
     /**
