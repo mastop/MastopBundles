@@ -102,7 +102,7 @@
 <div id="ft_wrap">
     {{mastop_menu('system-foot', null, null, 0, 'footer', {'id':'navFoot'})}}
     <div class="clearfix"></div>
-    <div id="ft" class="container_12">{% block footer %}<span id="copyright">© 2011 Mastop Internet Development</span>{% endblock%}</div>
+    <div id="ft" class="container_12">{% block footer %}<span id="copyright">© {{ "now"|date('Y') }} Mastop Internet Development</span>{% endblock%}</div>
 </div>
 {# /Footer #}
 </div>

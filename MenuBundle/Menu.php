@@ -44,20 +44,74 @@ class Menu {
                 $document = $this->prepareLinks($menuMain);
                 $cache->set($menu, $document, 604800); // Uma semana
             }
-        }else{
-            if ($cache->has($menu.'.'.$item)) {
-                $document = $cache->get($menu.'.'.$item);
+        } else {
+            if ($cache->has($menu . '.' . $item)) {
+                $document = $cache->get($menu . '.' . $item);
             } else {
                 $menuMain = $repo->findByBundleCode($bundle, $code);
                 $menuItem = $repo->getChildrenByCode($menuMain, $item);
                 if (!$menuItem) {
-                    throw new \Exception("Menu " . $item . " de ".$menu." não encontrado.");
+                    throw new \Exception("Menu " . $item . " de " . $menu . " não encontrado.");
                 }
                 $document = $this->prepareLinks($menuItem);
-                $cache->set($menu.'.'.$item, $document, 604800); // Uma semana
+                $cache->set($menu . '.' . $item, $document, 604800); // Uma semana
             }
         }
-        return $this->engine->render('MastopMenuBundle:Templates:'.$template.'.html.twig', array('menu'=>$document, 'current'=>$current, 'attrs'=>$attributes, 'root'=>true));
+        return $this->engine->render('MastopMenuBundle:Templates:' . $template . '.html.twig', array('menu' => $document, 'current' => $current, 'attrs' => $attributes, 'root' => true, 'depth' => $depth));
+    }
+
+    public function breadcrumbs($title = null, $current = null, $itens = false, $attrs = array(), $area = 'admin') {
+        if ($current == '_home' || $current == 'admin_system_home_index') {
+            return null; // Vazio se o current é home do site ou home da admin
+        }
+        $cache = $this->mastop->getCache();
+        if ($cache->has('system-' . $area)) {
+            $menu = $cache->get('system-' . $area); // Pega o menu main ou menu admin do cache
+        } else { // Pega o menu main ou menu admin do DB e salva no cache
+            $repo = $this->mastop->getDocumentManager()->getRepository('MastopMenuBundle:Menu');
+            $menuMain = $repo->findByBundleCode('system', $area);
+            if (!$menuMain) {
+                throw new \Exception("Menu system-" . $area . " não encontrado.");
+            }
+            $menu = $this->prepareLinks($menuMain);
+            $cache->set('system-' . $area, $menu, 604800); // Uma semana
+        }
+        $ret = array();
+        $count = 0; // Contador de itens do menu
+        $thisUrl = explode('_', $current); // Exemplo de current: admin_menu_menu_index (admin_bundle_controller_action)
+        $thisBundle = ($area == 'admin') ? 'admin_' . $thisUrl[1] : $thisUrl[0];
+        $thisMenu = null;
+        foreach ($menu as $k => $v)
+            if ($k != 'dashboard' && strpos($v['url'], $thisBundle) !== false) {
+                $thisMenu = $v;
+                break;
+            }
+        if($thisMenu){
+            $ret[$count]['name'] = $thisMenu['name'];
+            $ret[$count]['url'] = $thisMenu['url'];
+            $count++;
+            if(is_array($thisMenu['children'])){
+                // Procura pelo current nos filhos
+                foreach ($thisMenu['children'] as $k => $v){
+                    if($v['url'] == $current){
+                            $ret[$count]['name'] = $v['name'];
+                            $ret[$count]['url'] = $v['url'];
+                            $count++;
+                            break;
+                    }
+                }
+            }
+        }
+        if(is_array($itens)){
+            foreach ($itens as $k => $v){
+                if(isset ($v['name'])){
+                    $ret[$count]['name'] = $v['name'];
+                    $ret[$count]['url'] = (isset ($v['url'])) ? $v['url'] : null;
+                    $count++;
+                }
+            }
+        }
+        return $this->engine->render('MastopMenuBundle:Templates:breadcrumbs.html.twig', array('title' => $title, 'area' => $area, 'attrs' => $attrs, 'crumbs' => $ret));
     }
 
     private function prepareLinks($menu) {
@@ -75,13 +129,14 @@ class Menu {
                 $ret[$child->getCode()]['url'] = $child->getUrl();
                 $ret[$child->getCode()]['newwindow'] = $child->getNewWindow();
                 $ret[$child->getCode()]['route'] = $child->getRoute();
-                if(count($child->getChildren()) > 0){
+                if (count($child->getChildren()) > 0) {
                     $ret[$child->getCode()]['children'] = $this->prepareLinks($child);
-                }else{
+                } else {
                     $ret[$child->getCode()]['children'] = null;
                 }
             }
         }
         return $ret;
     }
+
 }

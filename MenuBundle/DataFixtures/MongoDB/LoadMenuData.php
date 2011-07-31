@@ -39,13 +39,15 @@ class LoadMenuData extends AbstractFixture implements OrderedFixtureInterface, C
         $child->setUrl('admin_system_parameters_index');
         $child->setRoute(true);
         $child->setOrder(99);
-        $child2 = new MenuItem();
-        $child2->setCode('preferences.clearcache');
-        $child2->setName('Limpar Cache');
-        $child2->setRole('ROLE_SUPERADMIN');
-        $child2->setUrl('admin_system_parameters_clearcache');
-        $child2->setRoute(true);
-        $child->addChildren($child2);
+        $menu->addChildren($child);
+        
+        $child = new MenuItem();
+        $child->setCode('limpar-cache');
+        $child->setName('Limpar Cache');
+        $child->setRole('ROLE_SUPERADMIN');
+        $child->setUrl('admin_system_parameters_clearcache');
+        $child->setRoute(true);
+        $child->setOrder(999);
         $menu->addChildren($child);
         
         $child = new MenuItem();

@@ -30,7 +30,8 @@ class MastopMenuExtension extends Twig_Extension
     public function getFunctions()
     {
         $mappings = array(
-            'mastop_menu'           => 'menu'
+            'mastop_menu'           => 'menu',
+            'breadcrumbs'           => 'breadcrumbs'
         );
 
         $functions = array();
@@ -44,6 +45,10 @@ class MastopMenuExtension extends Twig_Extension
     public function menu($menu, $item = null, $current = null, $depth = 0, $template = 'list', $attributes = array())
     {
         return $this->container->get('mastop.menu')->render($menu, $item, $current, $depth, $template, $attributes);
+    }
+    public function breadcrumbs($title = null, $current = null, $itens = false, $attrs = array(), $area = 'admin')
+    {
+        return $this->container->get('mastop.menu')->breadcrumbs($title, $current, $itens, $attrs, $area);
     }
 
     /**
