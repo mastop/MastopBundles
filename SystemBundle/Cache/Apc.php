@@ -37,7 +37,12 @@ class Apc implements Cacheable
 
     public function remove($key)
     {
-        return apc_delete($key);
+        if(is_array($key)){
+            foreach ($key as $v) apc_delete($v);
+        }else{
+            apc_delete($key);
+        }
+        return true;
     }
     
     public function clear($type = 'user')

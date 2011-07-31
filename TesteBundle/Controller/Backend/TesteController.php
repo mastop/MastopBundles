@@ -30,6 +30,7 @@ class TesteController extends BaseController {
             ->getForm();
         
         $ret['form'] = $form->createView();
+        $ret['current'] = 'admin_system_home_index';
         return $ret;
     }
 

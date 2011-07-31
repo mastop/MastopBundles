@@ -50,7 +50,7 @@ class TesteController extends BaseController {
     }
 
     /**
-     * @Route("/logout", name="_demo_logout")
+     * @Route("/logout", name="_logout")
      */
     public function logoutAction()
     {

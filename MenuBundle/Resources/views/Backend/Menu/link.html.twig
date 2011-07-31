@@ -44,7 +44,9 @@
                                 <option value="all" {%if link.getRole() is null %}selected{%endif%}>
                                         Todos
                                 </option>
-
+                                <option value="IS_AUTHENTICATED_ANONYMOUSLY" {%if link.getRole() == 'IS_AUTHENTICATED_ANONYMOUSLY' %}selected{%endif%}>
+                                        Apenas Visitantes
+                                </option>
                                 <option value="ROLE_USER" {%if link.getRole() == 'ROLE_USER' %}selected{%endif%}>
                                         Apenas Usuários Logados
                                 </option>
