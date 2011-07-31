@@ -47,6 +47,7 @@ class MenuController extends BaseController {
         $request = $this->getRequest();
         $post = $request->request;
         $dm = $this->dm();
+        $routes = array_keys($this->get('router')->getRouteCollection()->all());
         if ('POST' == $request->getMethod()) {
             $menuName = $post->get('menuName');
             $menuRole = $post->get('menuRole') ? $post->get('menuRole') : 'ROLE_ADMIN';
@@ -82,6 +83,7 @@ class MenuController extends BaseController {
                         $myMenuItem->setRole($menuItemRole[$k]);
                     }
                     $myMenuItem->setUrl($menuItemUrl[$k]);
+                    $myMenuItem->setRoute(in_array($menuItemUrl[$k], $routes));
                     $myMenuItem->setNewWindow((bool) $menuItemNewWindow[$k]);
                     $myMenu->addChildren($myMenuItem);
                 }
@@ -104,6 +106,7 @@ class MenuController extends BaseController {
         $request = $this->getRequest();
         $post = $request->request;
         $dm = $this->dm();
+        $routes = array_keys($this->get('router')->getRouteCollection()->all());
         if ('POST' == $request->getMethod()) {
             $id = $post->get('id');
             $code = $post->get('code');
@@ -132,14 +135,23 @@ class MenuController extends BaseController {
                 $myMenuItem->setOrder(intval($menuItemOrder));
                 $myMenuItem->setRole($menuItemRole);
                 $myMenuItem->setUrl($menuItemUrl);
+                $myMenuItem->setRoute(in_array($menuItemUrl, $routes));
                 $myMenuItem->setNewWindow((bool) $menuItemNewWindow);
                 if($codeEdit){
                     list($mapping, $menuMain, $propertyPath) = $this->dm()->getUnitOfWork()->getParentAssociation($myMenuItem);
-                    $myMenuItem->setCode($menuMain->getCode().'.'.$this->get('mastop')->slugify($menuItemName));
-                    $dm->persist($myMenu);
-                    $dm->flush();
                     $this->get('session')->setFlash('ok', 'Link <strong>' . $myMenuItem->getName() . '</strong> editado!');
-                    return $this->redirect($this->generateUrl('admin_menu_menu_subs', array('id' => $id, 'code' => $code)));
+                    $this->mastop()->getCache()->remove(array($myMenu->getBundle().'-'.$myMenu->getCode(), $myMenu->getBundle().'-'.$myMenu->getCode().'.'.$menuMain->getCode()));
+                    if($codeEdit == $code){
+                        $myMenuItem->setCode($this->get('mastop')->slugify($menuItemName));
+                        $dm->persist($myMenu);
+                        $dm->flush();
+                        return $this->redirect($this->generateUrl('admin_menu_menu_index'));
+                    }else{
+                        $myMenuItem->setCode($menuMain->getCode().'.'.$this->get('mastop')->slugify($menuItemName));
+                        $dm->persist($myMenu);
+                        $dm->flush();
+                        return $this->redirect($this->generateUrl('admin_menu_menu_subs', array('id' => $id, 'code' => $code)));
+                    }
                 }elseif (!empty($code)) {
                     $myChild = $menu->getChildrenByCode($myMenu, $code);
                     if ($myChild) {
@@ -254,36 +266,13 @@ class MenuController extends BaseController {
         $linkMain = $this->mongo('MastopMenuBundle:Menu')->getChildrenByCode($menu, $code);
         $ret = array();
         if($codeEdit){
-            $link = $this->mongo('MastopMenuBundle:Menu')->getChildrenByCode($linkMain, $codeEdit);
+            $link = $this->mongo('MastopMenuBundle:Menu')->getChildrenByCode(($code == $codeEdit) ? $menu : $linkMain, $codeEdit);
             $title = 'Editar link '.$link->getName();
         }else{
             $link = new MenuItem();
             $title = 'Novo link em '.$linkMain->getName();
         }
-        if ('POST' == $request->getMethod()) {
-            
-        }
         return array('link' => $link, 'title' => $title, 'code'=>$code, 'id'=>$id);
-        
-        if ($menus) {
-            foreach ($menus as $menu) {
-                if ($this->hasRole($menu->getRole())) {
-                    $children = $menu->getChildren();
-                    $ret[$menu->getBundle() . '-' . $menu->getCode()]['id'] = $menu->getId();
-                    $ret[$menu->getBundle() . '-' . $menu->getCode()]['name'] = $menu->getName();
-                    $ret[$menu->getBundle() . '-' . $menu->getCode()]['code'] = $menu->getCode();
-                    $ret[$menu->getBundle() . '-' . $menu->getCode()]['bundle'] = $menu->getBundle();
-                    if ($children) {
-                        $children = $children->toArray();
-                        usort($children, function($a, $b) {
-                                    return $a->getOrder() > $b->getOrder() ? 1 : -1;
-                                });
-                        $ret[$menu->getBundle() . '-' . $menu->getCode()]['children'] = $children;
-                    }
-                }
-            }
-        }
-        return array('menus' => $ret, 'title' => $title);
     }
 
 }

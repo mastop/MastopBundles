@@ -68,6 +68,14 @@ class MenuItem
      * @ODM\Boolean
      */
     protected $newWindow = false;
+    
+    /**
+     * É Route?
+     *
+     * @var string
+     * @ODM\Boolean
+     */
+    protected $route = false;
 
     /**
      * Children
@@ -239,5 +247,25 @@ class MenuItem
     public function getChildren()
     {
         return $this->children;
+    }
+
+    /**
+     * Set route
+     *
+     * @param boolean $route
+     */
+    public function setRoute($route)
+    {
+        $this->route = $route;
+    }
+
+    /**
+     * Get route
+     *
+     * @return boolean $route
+     */
+    public function getRoute()
+    {
+        return $this->route;
     }
 }
