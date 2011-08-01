@@ -41,12 +41,10 @@
 		});
  	
  	// Content Box Tabs Config
-			$( ".tabs" ).tabs({ 
-				fx: {opacity: 'toggle', duration: 'slow'} 
-			});
+			$( ".tabs" ).tabs();
 
 			$( ".side_tabs" ).tabs({ 
-				fx: {opacity: 'toggle', duration: 'slow', height:'auto'} 
+				fx: {opacity: 'toggle', duration: 'fast', height:'auto'} 
 			});
 		
 
@@ -123,9 +121,15 @@
 		});
 		
 	// Dismiss alert box
-		$(".alert").click(function(){
-			$(this).fadeOut('slow');
+		$(".alert span.close").click(function(){
+			$(this).parent().fadeOut('slow');
 		});
+                $("span.close").mouseover(function() {
+                    $(this).removeClass("disabled");
+                }).mouseout(function(){
+                    $(this).addClass("disabled");
+                });
+
 	
 	// target nav items with a dropdown for styling.
 	$('ul.dropdown').parent().addClass('has_dropdown');

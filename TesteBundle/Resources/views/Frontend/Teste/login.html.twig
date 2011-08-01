@@ -1,0 +1,27 @@
+{% extends '::frontend.html.twig' %}
+
+{% block content %}
+    <h1>Login</h1>
+
+    <p>
+        Usuários: <em>user/123</em> <small>(ROLE_ADMIN)</small> - <em>admin/123</em> <small>(ROLE_ADMIN)</small> - <em>mastop/123</em> <small>(ROLE_SUPERADMIN)</small>
+    </p>
+
+    {% if error %}
+        <div class="error">{{ error.message }}</div>
+    {% endif %}
+
+    <form action="{{ path("login_check") }}" method="post" id="login">
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" />
+        </div>
+
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="_password" />
+        </div>
+
+        <input type="submit" class="symfony-button-grey" value="LOGIN" />
+    </form>
+{% endblock %}
