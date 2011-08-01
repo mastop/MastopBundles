@@ -13,7 +13,7 @@
         {%endif%}
         <li{%if class is not null%} class="{{class}}"{%endif%}>
         {%if link.url is not null and (loop.last == false or title is not null)%}
-        <a href="{{url(link.url)}}">{{link.name}}</a>
+        <a href="{%if link.route%}{{url(link.url)}}{%else%}{{link.url}}{%endif%}">{{link.name}}</a>
         {%elseif loop.last and title is null%}
         <span>{{link.name}}</span>
         {%else%}
