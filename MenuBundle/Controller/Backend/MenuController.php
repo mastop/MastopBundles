@@ -123,9 +123,9 @@ class MenuController extends BaseController {
             $menuItemUrl = $post->get('menuItemUrl');
             $menuItemOrder = $post->get('menuItemOrder');
             if (!empty($menuItemName) && !empty($menuItemUrl)) { // Obrigatório o preenchimento do Texto e do Link
-                if($codeEdit){
+                if ($codeEdit) {
                     $myMenuItem = $menu->getChildrenByCode($myMenu, $codeEdit);
-                }else{
+                } else {
                     $myMenuItem = new MenuItem();
                 }
                 $myMenuItem->setName($menuItemName);
@@ -137,22 +137,22 @@ class MenuController extends BaseController {
                 $myMenuItem->setUrl($menuItemUrl);
                 $myMenuItem->setRoute(in_array($menuItemUrl, $routes));
                 $myMenuItem->setNewWindow((bool) $menuItemNewWindow);
-                if($codeEdit){
+                if ($codeEdit) {
                     list($mapping, $menuMain, $propertyPath) = $this->dm()->getUnitOfWork()->getParentAssociation($myMenuItem);
                     $this->get('session')->setFlash('ok', 'Link <strong>' . $myMenuItem->getName() . '</strong> editado!');
-                    $this->mastop()->getCache()->remove(array($myMenu->getBundle().'-'.$myMenu->getCode(), $myMenu->getBundle().'-'.$myMenu->getCode().'.'.$menuMain->getCode()));
-                    if($codeEdit == $code){
+                    $this->mastop()->getCache()->remove(array($myMenu->getBundle() . '-' . $myMenu->getCode(), $myMenu->getBundle() . '-' . $myMenu->getCode() . '.' . $menuMain->getCode()));
+                    if ($codeEdit == $code) {
                         $myMenuItem->setCode($this->get('mastop')->slugify($menuItemName));
                         $dm->persist($myMenu);
                         $dm->flush();
                         return $this->redirect($this->generateUrl('admin_menu_menu_index'));
-                    }else{
-                        $myMenuItem->setCode($menuMain->getCode().'.'.$this->get('mastop')->slugify($menuItemName));
+                    } else {
+                        $myMenuItem->setCode($menuMain->getCode() . '.' . $this->get('mastop')->slugify($menuItemName));
                         $dm->persist($myMenu);
                         $dm->flush();
                         return $this->redirect($this->generateUrl('admin_menu_menu_subs', array('id' => $id, 'code' => $code)));
                     }
-                }elseif (!empty($code)) {
+                } elseif (!empty($code)) {
                     $myChild = $menu->getChildrenByCode($myMenu, $code);
                     if ($myChild) {
                         $myMenuItem->setCode($myChild->getCode() . '.' . $this->get('mastop')->slugify($menuItemName));
@@ -205,7 +205,6 @@ class MenuController extends BaseController {
                 $menuMain->getChildren()->removeElement($menuChild);
                 $this->dm()->flush();
                 $this->get('session')->setFlash('ok', 'Link <strong>' . $menuChild->getName() . '</strong> deletado.');
-                
             } else {
                 if (!$menu || !$this->hasRole($menu->getRole()) || $menu->getBundle() != 'created') {
                     $this->get('session')->setFlash('error', 'Você não pode remover este menu.');
@@ -236,12 +235,27 @@ class MenuController extends BaseController {
         }
         $menuChild = $this->mongo('MastopMenuBundle:Menu')->getChildrenByCode($menuMain, $code);
         $ret = array();
-        $title = 'Administração de Submenus';
+        $title = 'Submenus';
+        $breadcrumbs = array();
         if ($menuChild) {
             $title .= ' -> ' . $menuChild->getName();
             $ret['main'] = $menuMain->getId();
             $ret['name'] = $menuChild->getName();
             $ret['code'] = $menuChild->getCode();
+            if (strpos($code, '.') !== false) { // Breadcrumbs
+                $subcodes = explode('.', $code);
+                array_pop($subcodes);
+                $nextCode = '';
+                foreach ($subcodes as $k => $sc) {
+                    $parentMenu = $this->mongo('MastopMenuBundle:Menu')->getChildrenByCode($menuMain, $nextCode.$sc);
+                    if ($parentMenu) {
+                        $breadcrumbs[$k]['name'] = $parentMenu->getName();
+                        $breadcrumbs[$k]['url'] = $this->generateUrl('admin_menu_menu_subs', array('id' => $id, 'code' => $parentMenu->getCode()));
+                        $breadcrumbs[$k]['noroute'] = 1;
+                        $nextCode = $parentMenu->getCode().'.';
+                    }
+                }
+            }
             $children = $menuChild->getChildren();
             if ($children) {
                 $children = $children->toArray();
@@ -251,8 +265,9 @@ class MenuController extends BaseController {
                 $ret['children'] = $children;
             }
         }
-        return array('menu' => $ret, 'title' => $title);
+        return array('menu' => $ret, 'title' => $title, 'current' => 'admin_menu_menu_index', 'breadcrumbs' => $breadcrumbs);
     }
+
     /**
      * @Route("/link/{id}/{code}", name="admin_menu_menu_link")
      * @Template()
@@ -265,14 +280,31 @@ class MenuController extends BaseController {
         $menu = $this->mongo('MastopMenuBundle:Menu')->findOneById($id);
         $linkMain = $this->mongo('MastopMenuBundle:Menu')->getChildrenByCode($menu, $code);
         $ret = array();
-        if($codeEdit){
-            $link = $this->mongo('MastopMenuBundle:Menu')->getChildrenByCode(($code == $codeEdit) ? $menu : $linkMain, $codeEdit);
-            $title = 'Editar link '.$link->getName();
-        }else{
-            $link = new MenuItem();
-            $title = 'Novo link em '.$linkMain->getName();
+        $ret['id'] = $id;
+        $ret['code'] = $code;
+        $ret['current'] = 'admin_menu_menu_index';
+        if (strpos($code, '.') !== false) { // Breadcrumbs
+            $subcodes = explode('.', $code);
+            array_pop($subcodes);
+            $nextCode = '';
+            foreach ($subcodes as $k => $sc) {
+                $parentMenu = $this->mongo('MastopMenuBundle:Menu')->getChildrenByCode($menu, $nextCode.$sc);
+                if ($parentMenu) {
+                    $ret['breadcrumbs'][$k]['name'] = $parentMenu->getName();
+                    $ret['breadcrumbs'][$k]['url'] = $this->generateUrl('admin_menu_menu_subs', array('id' => $id, 'code' => $parentMenu->getCode()));
+                    $ret['breadcrumbs'][$k]['noroute'] = 1;
+                    $nextCode = $parentMenu->getCode().'.';
+                }
+            }
         }
-        return array('link' => $link, 'title' => $title, 'code'=>$code, 'id'=>$id);
+        if ($codeEdit) {
+            $ret['link'] = $this->mongo('MastopMenuBundle:Menu')->getChildrenByCode(($code == $codeEdit) ? $menu : $linkMain, $codeEdit);
+            $ret['title'] = 'Editar link ' . $ret['link']->getName();
+        } else {
+            $ret['link'] = new MenuItem();
+            $ret['title'] = 'Novo link em ' . $linkMain->getName();
+        }
+        return $ret;
     }
 
 }

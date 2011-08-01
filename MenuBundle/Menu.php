@@ -89,6 +89,7 @@ class Menu {
         if($thisMenu){
             $ret[$count]['name'] = $thisMenu['name'];
             $ret[$count]['url'] = $thisMenu['url'];
+            $ret[$count]['route'] = $thisMenu['route'];
             $count++;
             if(is_array($thisMenu['children'])){
                 // Procura pelo current nos filhos
@@ -96,6 +97,7 @@ class Menu {
                     if($v['url'] == $current){
                             $ret[$count]['name'] = $v['name'];
                             $ret[$count]['url'] = $v['url'];
+                            $ret[$count]['route'] = $v['route'];
                             $count++;
                             break;
                     }
@@ -107,6 +109,7 @@ class Menu {
                 if(isset ($v['name'])){
                     $ret[$count]['name'] = $v['name'];
                     $ret[$count]['url'] = (isset ($v['url'])) ? $v['url'] : null;
+                    $ret[$count]['route'] = (isset ($v['route'])) ? true : false;
                     $count++;
                 }
             }
