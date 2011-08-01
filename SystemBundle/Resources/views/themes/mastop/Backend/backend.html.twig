@@ -133,7 +133,7 @@
 {# /Navigation #}
 
 {# Breadcrumb #}
-{{breadcrumbs(title|default(null), current|default(app.request.attributes.get('_route')), false, {'id': 'breadcrumb', 'class': 'grad_colour'})}}
+{{breadcrumbs(title|default(null), current|default(app.request.attributes.get('_route')), breadcrumbs|default(false), {'id': 'breadcrumb', 'class': 'grad_colour'})}}
 {# /Breadcrumb #}
 {# Conteúdo #}
 {% block content %}
