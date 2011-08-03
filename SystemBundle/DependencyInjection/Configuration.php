@@ -30,6 +30,14 @@ class Configuration
             ->end()
             ->scalarNode('active_theme')->end()
             ->scalarNode('themes_dir')->defaultValue('%kernel.root_dir%/../src/Mastop/Resources/themes')->end()
+            ->arrayNode('twitter')->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('file')->defaultValue('%kernel.root_dir%/../vendor/twitteroauth/twitteroauth/twitteroauth.php')->end()
+                        ->scalarNode('consumer_key')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('consumer_secret')->isRequired()->cannotBeEmpty()->end()
+                        ->scalarNode('callback_url')->defaultNull()->end()
+                    ->end()
+            ->end()
         ->end();
         return $treeBuilder->buildTree();
     }
