@@ -47,6 +47,14 @@ class LoadMenuData extends AbstractFixture implements OrderedFixtureInterface, C
         $child->setRole('ROLE_SUPERADMIN');
         $child->setUrl('admin_system_parameters_clearcache');
         $child->setRoute(true);
+        $child->setOrder(998);
+        $menu->addChildren($child);
+        $child = new MenuItem();
+        $child->setCode('instalar-temas');
+        $child->setName('Instalar Temas');
+        $child->setRole('ROLE_SUPERADMIN');
+        $child->setUrl('admin_system_parameters_installthemes');
+        $child->setRoute(true);
         $child->setOrder(999);
         $menu->addChildren($child);
         
