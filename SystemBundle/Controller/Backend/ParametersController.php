@@ -76,5 +76,44 @@ class ParametersController extends BaseController {
         $this->get('session')->setFlash('ok', 'Cache Limpo!');
         return $this->redirect($this->generateUrl('admin_system_parameters_index'));
     }
+    
+    /**
+     * @Route("/installthemes", name="admin_system_parameters_installthemes")
+     */
+    public function installthemesAction() {
+        $mt = $this->get('mastop.themes');
+        $filesystem = $this->get('filesystem');
+        $origem = $mt->getDir();
+        $temas = $mt->getAllowedThemes();
+        $target = $this->get('kernel')->getRootDir().'/../web/';
+        // Cria o diretório de temas
+        $filesystem->mkdir($target . 'themes/', 0777);
+        foreach ($temas as $tema) {
+            $originDir = $origem . '/'.$tema.'/Frontend';
+            $finder = new \Symfony\Component\Finder\Finder();
+            $finder->in($originDir);
+            $finder->files()->notName('*.twig');
+            if (is_dir($originDir)) {
+                $targetDir = $target . 'themes/' . $tema;
+
+                $filesystem->remove($targetDir);
+                $filesystem->mkdir($targetDir, 0777);
+                $filesystem->mirror($originDir, $targetDir, $finder);
+            }
+            $originDirAdmin = $origem . '/'.$tema.'/Backend';
+            $finder = new \Symfony\Component\Finder\Finder();
+            $finder->in($originDirAdmin);
+            $finder->files()->notName('*.twig');
+            if (is_dir($originDirAdmin)) {
+                $targetDir = $target . 'themes/' . $tema . '/admin';
+
+                $filesystem->remove($targetDir);
+                $filesystem->mkdir($targetDir, 0777);
+                $filesystem->mirror($originDirAdmin, $targetDir, $finder);
+            }
+        }
+        $this->get('session')->setFlash('ok', 'Temas Instalados!');
+        return $this->redirect($this->generateUrl('admin_system_parameters_index'));
+    }
 
 }
