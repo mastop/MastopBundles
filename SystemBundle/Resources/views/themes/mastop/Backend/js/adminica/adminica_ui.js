@@ -41,12 +41,10 @@
 		});
  	
  	// Content Box Tabs Config
-			$( ".tabs" ).tabs({ 
-				fx: {opacity: 'toggle', duration: 'slow'} 
-			});
+			$( ".tabs" ).tabs();
 
 			$( ".side_tabs" ).tabs({ 
-				fx: {opacity: 'toggle', duration: 'slow', height:'auto'} 
+				fx: {opacity: 'toggle', duration: 'fast', height:'auto'} 
 			});
 		
 
@@ -84,7 +82,7 @@
 		});
 		
 	// Input Datepicker Config
-		$( ".datepicker" ).datepicker({ dateFormat: 'd M yy' });; // the time format which will be input to the datepicker field upon selection. more info on formatting here: http://docs.jquery.com/UI/Datepicker/formatDate
+		$( ".datepicker" ).datepicker({ dateFormat: 'dd/mm/yy' });; // the time format which will be input to the datepicker field upon selection. more info on formatting here: http://docs.jquery.com/UI/Datepicker/formatDate
 	
 	// input Slider	Config
 		$( ".slider" ).slider(); // creates a simple slider with default settings
@@ -123,9 +121,15 @@
 		});
 		
 	// Dismiss alert box
-		$(".alert").click(function(){
-			$(this).fadeOut('slow');
+		$(".alert span.close").click(function(){
+			$(this).parent().fadeOut('slow');
 		});
+                $("span.close").mouseover(function() {
+                    $(this).removeClass("disabled");
+                }).mouseout(function(){
+                    $(this).addClass("disabled");
+                });
+
 	
 	// target nav items with a dropdown for styling.
 	$('ul.dropdown').parent().addClass('has_dropdown');

@@ -32,7 +32,14 @@ class MastopSystemExtension extends Extension
         $container->setParameter('mastop.themes.list', $themes);
         $container->setParameter('mastop.themes.active', $config['active_theme']);
         $container->setParameter('mastop.themes.themes_dir', $config['themes_dir']);
+        $container->setParameter('mastop.twitter.file', $config['twitter']['file']);
+        $container->setParameter('mastop.twitter.consumer_key', $config['twitter']['consumer_key']);
+        $container->setParameter('mastop.twitter.consumer_secret', $config['twitter']['consumer_secret']);
+        $container->setParameter('mastop.twitter.callback_url', $config['twitter']['callback_url']);
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.xml');
+        $loader->load('repository.xml');
         $loader->load('templating.xml');
+        $loader->load('twig.xml');
     }
 }

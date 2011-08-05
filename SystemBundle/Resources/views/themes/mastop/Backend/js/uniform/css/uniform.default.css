@@ -528,6 +528,7 @@ div.selector select {
   height: 25px;
   border: none;
   background: none;
+  width: 100%;
 }
 
 /* Checker */
