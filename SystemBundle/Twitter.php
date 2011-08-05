@@ -61,8 +61,10 @@ class Twitter {
         $accessToken = $this->twitter->getAccessToken($request->get('oauth_verifier'));
 
         /* Save the access tokens. Normally these would be saved in a database for future use. */
-        $session->set('access_token', $accessToken['oauth_token']);
-        $session->set('access_token_secret', $accessToken['oauth_token_secret']);
+        $session->set('tw_access_token', $accessToken['oauth_token']);
+        $session->set('tw_access_token_secret', $accessToken['oauth_token_secret']);
+        $session->set('tw_user_id', $accessToken['user_id']);
+        $session->set('tw_screen_name', $accessToken['screen_name']);
 
         /* Remove no longer needed request tokens */
         !$session->has('oauth_token') ?: $session->remove('oauth_token', null);
@@ -76,5 +78,21 @@ class Twitter {
 
         /* Return null for failure */
         return null;
+    }
+    
+    public function getUserData (Request $request, $criteria=null)
+    {
+        $session = $request->getSession();
+        $content = $this->twitter->get("users/show", $criteria);
+        return $content;
+    }
+     public function getLoginData (Request $request)
+    {
+        $session = $request->getSession();
+        $ret = array();
+        if($session->has('tw_user_id')){
+            $ret = array('token'=> $session->get('tw_access_token'), 'token_secret'=> $session->get('tw_access_token_secret'), 'user_id'=> $session->get('tw_user_id'), 'screen_name'=> $session->get('tw_screen_name'));
+        }
+        return $ret;
     }
 }
