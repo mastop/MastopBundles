@@ -10,7 +10,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  * @author   Fernando Santos <o@fernan.do>
  *
  * @ODM\EmbeddedDocument
- * @ODM\UniqueIndex(keys={"name"="asc", "uid"="asc"})
  */
 class Children
 {

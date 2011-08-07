@@ -14,6 +14,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  *   repositoryClass="Mastop\SystemBundle\Document\ParametersRepository"
  * )
  * @ODM\UniqueIndex(keys={"bundle"="asc", "name"="asc"})
+ * @ODM\UniqueIndex(keys={"children.name"="asc", "children.user"="asc"})
  */
 class Parameters
 {
