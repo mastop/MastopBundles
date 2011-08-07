@@ -12,10 +12,12 @@
 namespace Mastop\SystemBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Cookie;
 
 abstract class BaseController extends Controller {
 
-    private $dm, $mastop;
+    private $dm, $mastop, $cookie;
     
     /**
     * @return Mastop\SystemBundle\Mastop
@@ -80,5 +82,16 @@ abstract class BaseController extends Controller {
             $action = $action['_route'];
         }
         return $this->render('MastopSystemBundle:Backend:confirm.html.twig', array('msg' => $msg, 'opts' => $opts, 'action' => $action, 'color' => $color, 'img' => $img));
+    }
+    public function setCookie($name, $value = null, $expire = 0, $path = '/', $domain = null, $secure = false, $httpOnly = true){
+        $this->cookie = new Cookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
+    }
+    public function redirect($url, $status = 302)
+    {
+        $response = new RedirectResponse($url, $status);
+        if(is_object($this->cookie)){
+            $response->headers->setCookie($this->cookie);
+        }
+        return $response;
     }
 }
