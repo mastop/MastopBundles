@@ -44,6 +44,7 @@ class Twitter {
 
     public function getAccessToken(Request $request)
     {
+        if($request->get('oauth_verifier') == null) return null;
         $session = $request->getSession();
 
         //set OAuth token in the API
