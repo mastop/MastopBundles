@@ -22,6 +22,13 @@ class TesteController extends BaseController {
         $this->get('session')->setFlash('notice', 'Só avisando!');
         return array('fer' => $mastopThemes->getName());
     }
+    /**
+     * @Route("/cookie", name="_teste_cookie")
+     */
+    public function cookieAction() {
+        $this->setCookie('teste', 'teste', time() + (3600 * 48));
+        return $this->redirect($this->generateUrl('_teste'));
+    }
     
     /**
      * @Route("/login", name="login")
