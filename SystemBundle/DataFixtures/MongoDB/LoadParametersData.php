@@ -41,6 +41,7 @@ class LoadParametersData implements FixtureInterface, ContainerAwareInterface {
         $child->setValue('fernando@mastop.com.br');
         $param->addChildren($child);
         $manager->persist($param);
+        $manager->flush();
         $param = new Parameters();
         $param->setName('seo');
         $param->setTitle('SEO');
@@ -62,6 +63,7 @@ class LoadParametersData implements FixtureInterface, ContainerAwareInterface {
         $child->setFieldtype('textarea');
         $param->addChildren($child);
         $manager->persist($param);
+        $manager->flush();
         $param = new Parameters();
         $param->setName('script');
         $param->setTitle('Scripts');
