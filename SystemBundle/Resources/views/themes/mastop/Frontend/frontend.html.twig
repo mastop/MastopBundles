@@ -1,3 +1,4 @@
+{% set protocol = mastop_protocol()%}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" xml:lang="pt_BR" lang="pt_BR">
 <head>
@@ -17,7 +18,7 @@
 {% endstylesheets %}
 {% block stylesheets %}{% endblock %}
 <!-- Load JQuery -->		
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="{{protocol}}ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
 {% block javascriptsHead null %}
 {{ mastop_param('system.script.head') }}
 </head>
