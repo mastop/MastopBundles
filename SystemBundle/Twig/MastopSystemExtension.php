@@ -37,6 +37,7 @@ class MastopSystemExtension extends Twig_Extension {
             'mastop_date' => 'formatDate',
             'mastop_param' => 'getParam',
             'mastop_cache' => 'getCache',
+            'mastop_protocol' => 'getProtocol',
             'debug' => 'debug',
             'gravatar' => 'gravatar'
         );
@@ -167,7 +168,7 @@ class MastopSystemExtension extends Twig_Extension {
      * @source http://gravatar.com/site/implement/images/php/
      */
     public function gravatar($email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array()) {
-        $url = 'http://www.gravatar.com/avatar/';
+        $url = ($this->container->get('request')->isSecure()) ? 'https://secure.gravatar.com/avatar/' : 'http://www.gravatar.com/avatar/';
         $url .= md5(strtolower(trim($email)));
         $url .= "?s=$s&d=$d&r=$r";
         if ($img) {
@@ -177,6 +178,13 @@ class MastopSystemExtension extends Twig_Extension {
             $url .= ' />';
         }
         return $url;
+    }
+    /**
+     * Retorna o protocolo atual (http:// ou https://)
+     * @return string
+     */
+    public function getProtocol(){
+        return $this->container->get('request')->isSecure() ? 'https://' : 'http://';
     }
 
     /**
