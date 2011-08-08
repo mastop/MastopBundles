@@ -8,6 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 
+/**
+ * @Route("", requirements={"_scheme" = "https"})
+ */
 class TesteController extends BaseController {
 
     /**
