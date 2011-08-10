@@ -76,12 +76,12 @@ abstract class BaseController extends Controller {
     public function hasRole($role){
         return $this->get('security.context')->isGranted($role);
     }
-    public function confirm($msg, $opts, $action = null, $color = 'grey', $img = null){
+    public function confirm($msg, $opts, $action = null, $vars = array(), $color = 'grey', $img = null){
         if(!$action){
             $action = $this->get('router')->match($this->get('request')->getPathInfo());
             $action = $action['_route'];
         }
-        return $this->render('MastopSystemBundle:Backend:confirm.html.twig', array('msg' => $msg, 'opts' => $opts, 'action' => $action, 'color' => $color, 'img' => $img));
+        return $this->render('MastopSystemBundle:Backend:confirm.html.twig', array('msg' => $msg, 'opts' => $opts, 'action' => $action, 'vars' => $vars, 'color' => $color, 'img' => $img));
     }
     public function setCookie($name, $value = null, $expire = 0, $path = '/', $domain = null, $secure = false, $httpOnly = true){
         $this->cookie = new Cookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
