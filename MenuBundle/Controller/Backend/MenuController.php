@@ -227,9 +227,8 @@ class MenuController extends BaseController {
      * @Route("/submenus/{id}/{code}", name="admin_menu_menu_subs")
      * @Template()
      */
-    public function subsAction($id, $code) {
-        $menuMain = $this->mongo('MastopMenuBundle:Menu')->findOneById($id);
-        if (!$menuMain || !$this->hasRole($menuMain->getRole())) {
+    public function subsAction(Menu $menuMain, $code) {
+        if (!$this->hasRole($menuMain->getRole())) {
             $this->get('session')->setFlash('error', 'Você não pode acessar esta página.');
             return $this->redirect($this->generateUrl('admin_menu_menu_index'));
         }
