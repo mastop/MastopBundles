@@ -76,7 +76,19 @@ abstract class BaseController extends Controller {
     public function hasRole($role){
         return $this->get('security.context')->isGranted($role);
     }
-    public function confirm($msg, $opts, $action = null, $vars = array(), $color = 'grey', $img = null){
+    
+    /**
+     * Função para tela de confirmação
+     * 
+     * @param string $msg Mensagem para o usuário
+     * @param array $vars Variáveis para passar para o action
+     * @param string $action Route do action (null = action atual)
+     * @param array $opts Campos ocultos na tela de confirmação
+     * @param string $color Cor de BG da tela
+     * @param string $img Imagem para a tela
+     * @return Response Template renderizado com a tela de confirmação
+     */
+    public function confirm($msg, $vars = array(), $action = null, $opts = array(), $color = 'grey', $img = null){
         if(!$action){
             $action = $this->get('router')->match($this->get('request')->getPathInfo());
             $action = $action['_route'];
