@@ -13,7 +13,7 @@ use Doctrine\ODM\MongoDB\MongoDBException;
 
 
 /**
- * MastopSystemConverter.
+ * MastopParamConverter
  *
  * @author     Fernando Santos <o@fernan.do>
  */
