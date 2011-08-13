@@ -59,6 +59,7 @@ class MastopSystemExtension extends Twig_Extension {
         $filters = array(
             // formatting filters
             'date' => new Twig_Filter_Method($this, 'formatDate'),
+            'money' => new Twig_Filter_Method($this, 'formatMoney'),
         );
 
         return $filters;
@@ -83,6 +84,11 @@ class MastopSystemExtension extends Twig_Extension {
         $date = $date->getTimestamp();
 
         return $this->dateFormatter->format($date);
+    }
+    public function formatMoney($money, $format = '%.2n') {
+        // @TODO: Ver se esta é a melhor maneira de exibir dados monetários
+        setlocale(LC_MONETARY, $this->container->getParameter('locale'));
+        return money_format($format, $money);
     }
 
     public function escape($string) {
