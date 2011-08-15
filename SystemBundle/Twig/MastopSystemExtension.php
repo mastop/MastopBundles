@@ -38,6 +38,7 @@ class MastopSystemExtension extends Twig_Extension {
             'mastop_param' => 'getParam',
             'mastop_cache' => 'getCache',
             'mastop_protocol' => 'getProtocol',
+            'mastop_theme_name' => 'getThemeName',
             'debug' => 'debug',
             'gravatar' => 'gravatar'
         );
@@ -143,6 +144,9 @@ class MastopSystemExtension extends Twig_Extension {
 
     public function getParam($key) {
         return $this->container->get('mastop')->param($key);
+    }
+    public function getThemeName() {
+        return $this->container->get('mastop.themes')->getName();
     }
 
     public function getCache($key, $default = null) {

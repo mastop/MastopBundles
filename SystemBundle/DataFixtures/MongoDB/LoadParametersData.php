@@ -40,6 +40,13 @@ class LoadParametersData implements FixtureInterface, ContainerAwareInterface {
         $child->setDesc('E-mail para receber notificações do site');
         $child->setValue('fernando@mastop.com.br');
         $param->addChildren($child);
+        $child = new Children();
+        $child->setName('footer');
+        $child->setTitle('Rodapé');
+        $child->setDesc('Informações que irão no rodapé do site.');
+        $child->setFieldtype('textarea');
+        $child->setValue('© 2011 <strong>Mastop</strong> - Internet Development | Todos os direitos reservados.');
+        $param->addChildren($child);
         $manager->persist($param);
         $manager->flush();
         $param = new Parameters();

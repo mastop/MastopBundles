@@ -38,7 +38,7 @@
 	<div class="toggle_container">
         {% for key, tab in tabs %}
         <div class="block ui-tabs-panel ui-widget-content ui-corner-bottom" id="tabs-{{loop.index}}" style="">
-            <div class="info"><div class="alert alert_black"><img height="24" width="24" src="{{ asset('themes/mastop/admin/images/icons/large/white/speech_bubble_2.png') }}" />{{tab.desc}}</div></div>
+            <div class="info"><div class="alert alert_black"><img height="24" width="24" src="{{ asset('themes/'~mastop_theme_name()~'/admin/images/icons/large/white/speech_bubble_2.png') }}" />{{tab.desc}}</div></div>
             <div class="content">
 	{{ form_widget(form[key]) }}
             </div>
