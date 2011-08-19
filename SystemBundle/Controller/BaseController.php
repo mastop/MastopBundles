@@ -95,6 +95,18 @@ abstract class BaseController extends Controller {
         }
         return $this->render('MastopSystemBundle:Backend:confirm.html.twig', array('msg' => $msg, 'opts' => $opts, 'action' => $action, 'vars' => $vars, 'color' => $color, 'img' => $img));
     }
+    /**
+     * Função para facilitar o redirecionamento com mensagem
+     *
+     * @param string $url Url para o redirecionamento
+     * @param string $msg Mensagem de redirecionamento
+     * @param string $type ok | error | notice
+     * @return object RedirectResponse 
+     */
+    public function redirectFlash($url, $msg, $type = 'ok'){
+        $this->get('session')->setFlash($type, $msg);
+        return $this->redirect($url);
+    }
     public function setCookie($name, $value = null, $expire = 0, $path = '/', $domain = null, $secure = false, $httpOnly = true){
         $this->cookie = new Cookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
     }
