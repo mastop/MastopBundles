@@ -1,4 +1,16 @@
+<<<<<<< HEAD
+_frontend:
+    resource: "@MastopMenuBundle/Controller/Frontend/MenuController.php"
+    type: annotation
+    prefix:   /
+    
+_backend:
+    resource: "@MastopMenuBundle/Controller/Backend/MenuController.php"
+    type: annotation
+    prefix:   /admin
+=======
 menu_backend:
     resource: "@MastopMenuBundle/Controller/Backend/MenuController.php"
     type: annotation
     prefix:   /admin/menu
+>>>>>>> 8199136e6d71bfd9371a8df7ce9e3b78be00578a

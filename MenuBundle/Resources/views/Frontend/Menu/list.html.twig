@@ -1,0 +1,33 @@
+{% extends "::frontend.html.twig" %}
+
+{% block content %}
+    <h1>Menus:</h1>
+    <table style="border: 2px solid black; width: 800px;">
+        {% for k , j in menu %}
+            <tr>
+            {% for name in j %}
+                <td style="border-top: 2px solid black;">
+                    {% if name != ""%}
+                        {{ name }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            {% endfor %}
+                <td style=" border-top: 2px solid black; width: 60px;">
+                    <a href="{{ path('_demo_edit_hello', {'_id': k}) }}">
+                        <img src="{{ asset('bundles/acmedemo/images/edit.png') }}" alt="Editar">
+                    </a>
+                    <a href="{{ path('_demo_preDelete_hello', {'_id': k}) }}">
+                        <img src="{{ asset('bundles/acmedemo/images/delete.gif') }}" alt="Editar">
+                    </a>
+                    <a href="{{ path('_demo_confirma_hello', {'_id': k}) }}">
+                        <img src="{{ asset('bundles/acmedemo/images/mail.png') }}" alt="Editar">
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% set code = code(_self) %}

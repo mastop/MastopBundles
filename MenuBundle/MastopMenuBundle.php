@@ -1,5 +1,15 @@
 <?php
 
+<<<<<<< HEAD
+namespace Mastop\MenuBundle;
+
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class MastopMenuBundle extends bundle
+{
+}
+
+=======
 /**
  * Mastop/MenuBundle/MastopMenuBundle.php
  *
@@ -31,3 +41,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 class MastopMenuBundle extends Bundle 
 {   
 }
+>>>>>>> 8199136e6d71bfd9371a8df7ce9e3b78be00578a

@@ -1,0 +1,41 @@
+{% extends "::frontend.html.twig" %}
+
+{% block content %}
+    <h1>Menus:</h1>
+    <a href="{{ path('_menu_new') }}">Novo Menu</a><br />
+    <table style="border: 2px solid black; width: 800px;">
+        <tr>
+            <th style="text-align: center; border: 2px solid black;">Menu Name</th>
+            <th style="text-align: center; border: 2px solid black;">Ordem</th>
+            <th style="text-align: center; border: 2px solid black;">Name</th>
+            <th style="text-align: center; border: 2px solid black;">Role</th>
+            <th style="text-align: center; border: 2px solid black;">Url</th>
+        </tr>
+        {% for k , j in menu %}
+            <tr>
+            {% for name in j %}
+                <td style="border-top: 2px solid black; text-align: center;">
+                    {% if name != "" or name == 0%}
+                        {{ name }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            {% endfor %}
+                <td style=" border-top: 2px solid black; width: 60px; text-align: center;">
+                    <a href="{{ path('_menu', {'_id': k}) }}">
+                        <img src="{{ asset('bundles/acmedemo/images/edit.png') }}" alt="Editar">
+                    </a>
+                    <a href="{{ path('_menu', {'_id': k}) }}">
+                        <img src="{{ asset('bundles/acmedemo/images/delete.gif') }}" alt="Editar">
+                    </a>
+                    <a href="{{ path('_menu', {'_id': k}) }}">
+                        <img src="{{ asset('bundles/acmedemo/images/mail.png') }}" alt="Editar">
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% set code = code(_self) %}
