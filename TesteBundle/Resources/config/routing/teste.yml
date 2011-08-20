@@ -1,9 +1,13 @@
 _frontend:
     resource: "@MastopTesteBundle/Controller/Frontend/TesteController.php"
     type: annotation
+<<<<<<< HEAD
     prefix:   /
     
+=======
+    prefix:   /teste
+>>>>>>> 8199136e6d71bfd9371a8df7ce9e3b78be00578a
 _backend:
     resource: "@MastopTesteBundle/Controller/Backend/TesteController.php"
     type: annotation
-    prefix:   /admin
+    prefix:   /admin/teste

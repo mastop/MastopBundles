@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "::backend.html.twig" %}
 
 {% block title%}
@@ -45,3 +46,191 @@
 {% endblock %}
 
 {% set code = code(_self) %}
+=======
+{% extends '::backend.html.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block javascriptsHead %}
+{% javascripts '@MastopMenuBundle/Resources/public/js/menu.js' filter='yui_js' output='bundles/mastopmenu/js/menu.js' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+
+
+{% block content %}
+<div class="box grid_12">
+    <h2 class="box_head grad_colour">{{title}}</h2>
+    <div class="toggle_container">
+            <ul class="block content_accordion">
+                {% for key, menu in menus %}
+                <li>
+                    <h3 class="bar">{{menu['name']}} {%if menu['bundle'] == 'created' %} <a class="button small red" style="float:right; margin-top:3px;" title="Deletar {{menu['name']}}" href="{{path('admin_menu_menu_delete', {'id': menu['id']})}}"><span class="ui-silk ui-silk-delete">Deletar</span></a> {%endif%}</h3>
+                    <div class="content" style="padding:0">
+                        <table class="static"> 
+        			<thead> 
+                                    <tr> 
+                                        <th>Nome</th> 
+                                        <th>Título</th> 
+                                        <th class="nowrap">URL / Route</th> 
+                                        <th class="center nowrap">Nova Janela</th> 
+                                        <th class="center nowrap">Sub-Menus</th> 
+                                        <th class="last nowrap center">Ações</th> 
+                                    </tr> 
+				</thead> 
+                        {% for c, child in menu['children'] %}
+                                <tbody> 
+                                    <tr class="gradeX">
+                                        <td>{{child.getName()}}</td> 
+                                        <td>{{child.getTitle()}}</td> 
+                                        <td>{{child.getURL()}}</td> 
+                                        <td class="center">{% if child.getNewWindow() %}Sim{% else %}Não{% endif %}</td> 
+                                        <td class="center">{% if child.getChildren()|length > 0 %}<a title="Ver Submenus" href="{{path('admin_menu_menu_subs', {'id': menu['id'], 'code':child.getCode()})}}"><span class="ui-silk ui-silk-eye">Ver Submenus</span> {{child.getChildren()|length}}</a>{%else%}<span class="ui-silk ui-silk-eye disabled">Sem Submenu</span> 0{%endif%}</td> 
+                                        <td class="center nowrap"><a class="button button-set-start small white" title="Novo Submenu" href="{{path('admin_menu_menu_link', {'id': menu['id'], 'code':child.getCode()})}}"><span class="ui-silk ui-silk-application-side-tree">Novo Submenu</span></a><a class="button button-set small white" title="Editar" href="{{path('admin_menu_menu_link', {'id': menu['id'], 'code': child.getCode(), 'codeEdit':child.getCode()})}}"><span class="ui-silk ui-silk-pencil">Editar</span></a><a class="button button-set-finish small red" title="Deletar" href="{{path('admin_menu_menu_delete', {'id': menu['id'], 'code':child.getCode()})}}"><span class="ui-silk ui-silk-delete">Deletar</span></a></td> 
+                                    </tr>
+                                </tbody>
+                        {%else%}
+                                <tbody> 
+                                    <tr class="gradeX">
+                                        <td class="center" colspan="6">Não há links dentro de <strong>"{{menu['name']}}"</strong>.</td> 
+                                    </tr>
+                                </tbody>
+                        {% endfor %}
+                            </table>
+                        <button class="button white newItem m10"><span class="ui-silk ui-silk-add"></span> Novo Link para "{{menu['name']}}"</button>
+                        <form action="{{ path("admin_menu_menu_saveitem") }}" method="post" style="display:none">
+                            <input type="hidden" name="id" value="{{menu['id']}}" />
+                            <div class="flat_area m10">
+                                <div class="grid_5">
+                                <label>Texto do Link</label> 
+                                <input name="menuItemName" type="text" class="large" title="Digite o texto que irá no link" />
+                                <label>Título do Link</label> 
+                                <input name="menuItemTitle" type="text" class="large" title="Digite o que aparecerá no parâmetro 'title' do link" />
+                                <label>Abrir em Nova Janela?</label> 
+                                <select name="menuItemNewWindow">
+                                    <option value="0">
+                                            Não
+                                    </option>
+                                    <option value="1">
+                                            Sim
+                                    </option>
+                                </select>
+                                </div>
+                                <div class="grid_5">
+                                <label>Link</label> 
+                                <input name="menuItemUrl" type="text" class="large" title="Digite a URL do link no menu" />
+                                <label>Ordem</label> 
+                                <input name="menuItemOrder" type="text" class="small" title="Digite a ordem do link no menu" value="0" />
+                                <label>Permissão para Vizualização</label>
+                                <div class="input_group">
+                                        <select name="menuItemRole">
+                                                <option value="all">
+                                                        Todos
+                                                </option>
+                                                <option value="IS_AUTHENTICATED_ANONYMOUSLY">
+                                                        Apenas Visitantes
+                                                </option>
+                                                <option value="ROLE_USER">
+                                                        Apenas Usuários Logados
+                                                </option>
+                                                <option value="ROLE_ADMIN">
+                                                        Apenas Administradores
+                                                </option>
+                                                {% if is_granted('ROLE_SUPERADMIN') %}
+                                                <option value="ROLE_SUPERADMIN">
+                                                        Apenas Mastop
+                                                </option>
+                                                {% endif %}
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>    
+                            </div>
+                            <button class="button green m10"><span>Salvar</span></button>
+                        </form>
+		    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        <button class="button black m10" id="newMenu">Novo Menu</button>
+        <div id="newMenuForm" class="box grid_12 round_all" style="display:none">
+            <h2 class="box_head grad_colour">Novo Menu</h2>
+                <div class="toggle_container">
+                        <div class="block">
+                                <form action="{{ path("admin_menu_menu_save") }}" method="post">
+                                        <label>Nome do Menu</label> 
+                                        <input name="menuName" type="text" class="medium required" />
+                                        
+                                        {% if is_granted('ROLE_SUPERADMIN') %}
+                                            <label>Permissão Para Administração</label> 
+                                            <div class="input_group">
+                                                <input type="radio" name="menuRole" value="ROLE_SUPERADMIN" checked>Mastop<br />
+                                                <input type="radio" name="menuRole" value="ROLE_ADMIN">Administrador<br>
+                                            </div>
+                                        {% endif %}
+
+                                        <h2>Links do Menu</h2>
+                                        <div class="info"><div class="alert alert_black"><img height="24" width="24" src="{{ asset('themes/mastop/admin/images/icons/large/white/speech_bubble_2.png') }}" />Atenção: Os itens sem "texto" ou "link" preenchidos serão ignorados.</div></div>
+                                        <button class="button button-set-start small green" title="Adicionar Link do Menu" id="newMenuAdd"><span class="ui-silk ui-silk-add"></span> Adicionar</button><button class="button button-set-finish small red" title="Remover Link do Menu" id="newMenuDel">Remover <span class="ui-silk ui-silk-delete"></span></button>
+                                        
+                                        <div class="flat_area newMenuItem m10">
+                                            <h2>Link 1</h2>
+                                            <div class="grid_5">
+                                            <label>Texto do Link</label> 
+                                            <input name="menuItemName[]" type="text" class="large" title="Digite o texto que irá no link" />
+                                            <label>Título do Item</label> 
+                                            <input name="menuItemTitle[]" type="text" class="large" title="Digite o que aparecerá no parâmetro 'title' do link" />
+                                            <label>Abrir em Nova Janela?</label> 
+                                            <select name="menuItemNewWindow[]">
+                                                <option value="0">
+                                                        Não
+                                                </option>
+                                                <option value="1">
+                                                        Sim
+                                                </option>
+                                            </select>
+                                            </div>
+                                            <div class="grid_5">
+                                            <label>Link</label> 
+                                            <input name="menuItemUrl[]" type="text" class="large" title="Digite a URL do link no menu" />
+                                            <label>Ordem</label> 
+                                            <input name="menuItemOrder[]" type="text" class="small" title="Digite a ordem do link no menu" value="0" />
+                                            <label>Permissão para Vizualização</label>
+                                            <div class="input_group">
+                                                    <select name="menuItemRole[]">
+                                                            <option value="all">
+                                                                    Todos
+                                                            </option>
+                                                            <option value="IS_AUTHENTICATED_ANONYMOUSLY">
+                                                                    Apenas Visitantes
+                                                            </option>
+                                                            <option value="ROLE_USER">
+                                                                    Apenas Usuários Logados
+                                                            </option>
+                                                            <option value="ROLE_ADMIN">
+                                                                    Apenas Administradores
+                                                            </option>
+                                                            {% if is_granted('ROLE_SUPERADMIN') %}
+                                                            <option value="ROLE_SUPERADMIN">
+                                                                    Apenas Mastop
+                                                            </option>
+                                                            {% endif %}
+                                                    </select>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>    
+                                        </div>
+                                        <div class="flat_area" id="newMenuItemCopy">
+                                            
+                                        </div>
+
+                                        <button class="button_colour round_all"><span>Salvar</span></button>
+                                </form>
+                        </div>
+        
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+>>>>>>> 8199136e6d71bfd9371a8df7ce9e3b78be00578a

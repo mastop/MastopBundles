@@ -1,0 +1,56 @@
+{% extends '::backend.html.twig' %}
+{% form_theme form _self %}        
+
+{% block form_label %}
+{% spaceless %}
+    <label {% for attrname,attrvalue in attr %} {{attrname}}="{{attrvalue}}"{% endfor %}>{{ label|trans }}</label>
+{% endspaceless %}
+{% endblock form_label %}
+
+{% block checkbox_widget %}
+{% spaceless %}
+    <input type="checkbox" name="{{ full_name }}" id="{{ id }}"{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} /> {{ attr.title }}
+{% endspaceless %}
+{% endblock checkbox_widget %}
+    
+{% block field_row %}
+{% spaceless %}
+    <div class="input_group">
+        {{ form_label(form, label|default(null)) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endspaceless %}
+{% endblock field_row %}
+
+
+{% block title %}Preferências{% endblock %}
+
+
+{% block content %}
+<form action="{{ path("admin_system_parameters_save") }}" method="post" {{ form_enctype(form) }}>
+    <div class="box grid_12 tabs ui-tabs ui-widget ui-widget-content ui-corner-all">
+	<ul class="tab_header grad_colour clearfix ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+	{% for key, tab in tabs %}
+            <li class="ui-state-default ui-corner-top ui-tabs-selected {%if loop.first %}ui-state-active{% endif %}"><a href="#tabs-{{loop.index}}">{{tab.title}}</a></li>
+        {% endfor %}
+        </ul>
+	<div class="toggle_container">
+        {% for key, tab in tabs %}
+        <div class="block ui-tabs-panel ui-widget-content ui-corner-bottom" id="tabs-{{loop.index}}" style="">
+            <div class="info"><div class="alert alert_black"><img height="24" width="24" src="{{ asset('themes/'~mastop_theme_name()~'/admin/images/icons/large/white/speech_bubble_2.png') }}" />{{tab.desc}}</div></div>
+            <div class="content">
+	{{ form_widget(form[key]) }}
+            </div>
+	</div>
+        {% endfor %}
+        {{ form_rest(form) }}
+            <div class="block"><button class="button_colour"><span>{{"Salvar"|trans}}</span></button></div>
+		</div>
+        
+	</div>
+ 
+
+    
+</form>
+{% endblock %}

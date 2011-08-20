@@ -1,0 +1,14 @@
+{% extends '::backend.html.twig' %}
+
+{% block title %}{{msg}}{% endblock %}
+
+{% block content %}
+<form action="{{ path(action, vars) }}" method="post">
+    <div class="m10 alert alert_{{color}}"><h2>{%if img %}<img src="{{img}}" /> {%endif%}{{msg|raw}}</h2>
+        {% for field, value in opts %}
+        <input type="hidden" name="{{ field }}" value="{{ value }}" />
+        {% endfor %}
+        <button class="button green">Sim</button> <a class="button red" href="javascript:history.go(-1);">Não</a>
+    </div>
+</form>
+{% endblock %}

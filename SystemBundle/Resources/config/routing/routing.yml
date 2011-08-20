@@ -1,3 +1,13 @@
 _home:
     pattern:  /
     defaults: { _controller: MastopSystemBundle:Frontend\Home:index }
+    requirements:
+      _scheme: http
+system_parameters_backend:
+    resource: "@MastopSystemBundle/Controller/Backend/ParametersController.php"
+    type: annotation
+    prefix:   /admin/preferencias
+system_home_backend:
+    resource: "@MastopSystemBundle/Controller/Backend/HomeController.php"
+    type: annotation
+    prefix:   /admin

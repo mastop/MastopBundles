@@ -620,6 +620,11 @@ div.main_container #nav_top > ul > li.current > a{
 	-moz-border-radius-topleft: 3px;
 	border-top-left-radius: 3px;
 }
+#nav_top ul li.first:first-child > a{
+	-webkit-border-top-left-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	border-top-left-radius: 3px;
+}
 #nav_top ul li a:hover{
 	color:#000;
 }
@@ -967,7 +972,7 @@ form .LV_invalid{
 	border-radius: 3px;
 }
 
-.alert:hover{
+.close:hover{
 	cursor: pointer;
 }
 
