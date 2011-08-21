@@ -65,21 +65,27 @@ class LoadMenuData extends AbstractFixture implements OrderedFixtureInterface, C
         $child->setOrder(99);
         $menu->addChildren($child);
         
+        
         $child = new MenuItem();
-        $child->setCode('limpar-cache');
-        $child->setName('Limpar Cache');
+        $child->setCode('mastop');
+        $child->setName('Mastop');
         $child->setRole('ROLE_SUPERADMIN');
-        $child->setUrl('admin_system_parameters_clearcache');
-        $child->setRoute(true);
-        $child->setOrder(998);
-        $menu->addChildren($child);
-        $child = new MenuItem();
-        $child->setCode('instalar-temas');
-        $child->setName('Instalar Temas');
-        $child->setRole('ROLE_SUPERADMIN');
-        $child->setUrl('admin_system_parameters_installthemes');
-        $child->setRoute(true);
+        $child->setUrl('javascript:void(0)');
         $child->setOrder(999);
+            $child2 = new MenuItem();
+            $child2->setCode('mastop.limpar-cache');
+            $child2->setName('Limpar Cache');
+            $child2->setRole('ROLE_SUPERADMIN');
+            $child2->setUrl('admin_system_parameters_clearcache');
+            $child2->setRoute(true);
+        $child->addChildren($child2);
+            $child3 = new MenuItem();
+            $child3->setCode('mastop.instalar-temas');
+            $child3->setName('Instalar Temas');
+            $child3->setRole('ROLE_SUPERADMIN');
+            $child3->setUrl('admin_system_parameters_installthemes');
+            $child3->setRoute(true);
+        $child->addChildren($child3);
         $menu->addChildren($child);
         
         $child = new MenuItem();

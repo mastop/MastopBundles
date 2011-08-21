@@ -9,7 +9,7 @@
         {%elseif loop.last%}
             {% set class = 'last' %}
         {%endif%}
-        {%if current == link.url or app.request.attributes.get('_route') == link.url%} 
+        {%if current == link.url or (current is null and app.request.attributes.get('_route') == link.url)%} 
             {% set class = class ~ ' current' %}
         {%endif%}
         <li{%if class is not null%} class="{{class}}"{%endif%}>
