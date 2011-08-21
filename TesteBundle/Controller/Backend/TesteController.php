@@ -36,7 +36,7 @@ use Mastop\TesteBundle\Entity\Teste;
 class TesteController extends BaseController {
 
     /**
-     * @Route("/", name="_teste_admin"),
+     * @Route("/", name="admin_teste_index"),
      * @Route("/super/")
      * @Template()
      */

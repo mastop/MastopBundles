@@ -5,7 +5,7 @@
 
 {% block content %}
 <h1>Admin Area! Data: {{ data }}</h1>
-<form action="{{ path('_teste_admin') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('admin_teste_index') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
 
     <input type="submit" />
