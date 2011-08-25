@@ -190,56 +190,6 @@ class LoadMenuData extends AbstractFixture implements OrderedFixtureInterface, C
         $menu->setCode('foot');
         $menu->setBundle('system');
         $menu->setRole('ROLE_ADMIN');
-        $child = new MenuItem();
-        $child->setCode('empresa');
-        $child->setName('Empresa');
-            $child2 = new MenuItem();
-            $child2->setCode('empresa.sobre');
-            $child2->setName('Sobre');
-            $child2->setUrl('/empresa/sobre');
-        $child->addChildren($child2);
-            $child2 = new MenuItem();
-            $child2->setCode('empresa.contato');
-            $child2->setName('Contato');
-            $child2->setUrl('/contato');
-            $child2->setOrder(1);
-        $child->addChildren($child2);
-            $child2 = new MenuItem();
-            $child2->setCode('empresa.privacidade');
-            $child2->setName('Privacidade');
-            $child2->setUrl('/empresa/privacidade');
-            $child2->setOrder(2);
-        $child->addChildren($child2);
-            $child2 = new MenuItem();
-            $child2->setCode('empresa.termos-e-condicoes');
-            $child2->setName('Termos e Condições');
-            $child2->setUrl('/empresa/termos-e-condicoes');
-            $child2->setOrder(3);
-        $child->addChildren($child2);
-        $menu->addChildren($child);
-        
-        $child = new MenuItem();
-        $child->setCode('saiba-mais');
-        $child->setName('Saiba Mais');
-            $child2 = new MenuItem();
-            $child2->setCode('saiba-mais.faq');
-            $child2->setName('FAQ');
-            $child2->setUrl('/saiba-mais/faq');
-        $child->addChildren($child2);
-            $child2 = new MenuItem();
-            $child2->setCode('saiba-mais.como-comprar');
-            $child2->setName('Como Comprar');
-            $child2->setUrl('/saiba-mais/como-comprar');
-            $child2->setOrder(1);
-        $child->addChildren($child2);
-            $child2 = new MenuItem();
-            $child2->setCode('saiba-mais.como-vender');
-            $child2->setName('Como Vender');
-            $child2->setUrl('/saiba-mais/como-vender');
-            $child2->setOrder(2);
-        $child->addChildren($child2);
-        $menu->addChildren($child);
-        
         $manager->persist($menu);
         
         
