@@ -92,12 +92,22 @@ class Menu {
         $count = 0; // Contador de itens do menu
         $thisUrl = explode('_', $current); // Exemplo de current: admin_menu_menu_index (admin_bundle_controller_action)
         $thisBundle = ($area == 'admin') ? 'admin_' . $thisUrl[1] : $thisUrl[0];
+        $thisBundleController = ($area == 'admin') ? 'admin_' . $thisUrl[1] . '_' . $thisUrl[2]: $thisUrl[0] . '_' . $thisUrl[1];
         $thisMenu = null;
-        foreach ($menu as $k => $v)
-            if ($k != 'dashboard' && strpos($v['url'], $thisBundle) !== false) {
+        foreach ($menu as $k => $v) {// Procura o bundle e controller no menu 
+            if ($k != 'dashboard' && strpos($v['url'], $thisBundleController) !== false) {
                 $thisMenu = $v;
                 break;
             }
+        }
+        if(!$thisMenu) {// Se não achar o bundle e controller, procura só o bundle
+            foreach ($menu as $k => $v){
+                if ($k != 'dashboard' && strpos($v['url'], $thisBundle) !== false) {
+                    $thisMenu = $v;
+                    break;
+                }
+            } 
+        }
         if($thisMenu){
             $ret[$count]['name'] = $thisMenu['name'];
             $ret[$count]['url'] = $thisMenu['url'];
