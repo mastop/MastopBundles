@@ -41,13 +41,15 @@ class ParametersController extends BaseController {
         $form = $this->createFormBuilder();
         $ret = array();
         foreach ($parameters as $p => $param) {
-            $ret[$p]['title'] = $param->getTitle();
-            $ret[$p]['desc'] = $param->getDesc();
-            $childs = $param->getChildren();
-            $form->add($param->getId(), 'collection');
-            foreach ($childs as $child) {
-                if($child->getUser() == 'system'){
-                    $form->get($param->getId())->add($child->getName(), $child->getFieldtype(), array_merge(array('required'=>false, 'label' => $child->getTitle(), 'data' => (($child->getFieldtype() != 'checkbox') ? $child->getValue() : (bool) $child->getValue()), 'attr' => array('title' => $child->getDesc())), $child->getOpts()));
+            if ($this->hasRole($param->getRole())) { // Só renderiza as preferências que este user tem permissão para ver
+                $ret[$p]['title'] = $param->getTitle();
+                $ret[$p]['desc'] = $param->getDesc();
+                $childs = $param->getChildren();
+                $form->add($param->getId(), 'collection');
+                foreach ($childs as $child) {
+                    if ($child->getUser() == 'system') {
+                        $form->get($param->getId())->add($child->getName(), $child->getFieldtype(), array_merge(array('required' => false, 'label' => $child->getTitle(), 'data' => (($child->getFieldtype() != 'checkbox') ? $child->getValue() : (bool) $child->getValue()), 'attr' => array('title' => $child->getDesc())), $child->getOpts()));
+                    }
                 }
             }
         }
@@ -65,15 +67,15 @@ class ParametersController extends BaseController {
         $dm = $this->dm();
         if ('POST' == $request->getMethod()) {
             $this->mastop()->clearCache();
-            foreach ($form as $tk => $tv){
-                if(is_array($tv)){
+            foreach ($form as $tk => $tv) {
+                if (is_array($tv)) {
                     $param = $parameters->findOneById($tk);
-                    if($param){
+                    if ($param && $this->hasRole($param->getRole())) { // Só salva o que este user tem permissão para editar
                         $childs = $param->getChildren();
-                        foreach ($childs as $c => $cv){
-                            if(isset ($tv[$cv->getName()])){
+                        foreach ($childs as $c => $cv) {
+                            if (isset($tv[$cv->getName()])) {
                                 $cv->setValue($tv[$cv->getName()]);
-                            }elseif($cv->getFieldtype() == 'checkbox' && $cv->getUser() == 'system'){
+                            } elseif ($cv->getFieldtype() == 'checkbox' && $cv->getUser() == 'system') {
                                 $cv->setValue('0'); // Se for checkbox, desmarca pois o mesmo não é enviado no POST
                             }
                         }
@@ -84,7 +86,7 @@ class ParametersController extends BaseController {
             $dm->flush();
             $this->get('session')->setFlash('ok', 'Preferências Atualizadas!');
             return $this->redirect($this->generateUrl('admin_system_parameters_index'));
-        }else{
+        } else {
             $this->get('session')->setFlash('error', 'Você não pode acessar esta página.');
             return $this->redirect($this->generateUrl('admin_system_parameters_index'));
         }
@@ -99,7 +101,7 @@ class ParametersController extends BaseController {
         $this->get('session')->setFlash('ok', 'Cache Limpo!');
         return $this->redirect($this->generateUrl('admin_system_parameters_index'));
     }
-    
+
     /**
      * @Route("/installthemes", name="admin_system_parameters_installthemes")
      */
@@ -108,11 +110,11 @@ class ParametersController extends BaseController {
         $filesystem = $this->get('filesystem');
         $origem = $mt->getDir();
         $temas = $mt->getAllowedThemes();
-        $target = $this->get('kernel')->getRootDir().'/../web/';
+        $target = $this->get('kernel')->getRootDir() . '/../web/';
         // Cria o diretório de temas
         $filesystem->mkdir($target . 'themes/', 0777);
         foreach ($temas as $tema) {
-            $originDir = $origem . '/'.$tema.'/Frontend';
+            $originDir = $origem . '/' . $tema . '/Frontend';
             $finder = new \Symfony\Component\Finder\Finder();
             $finder->in($originDir);
             $finder->files()->notName('*.twig');
@@ -123,7 +125,7 @@ class ParametersController extends BaseController {
                 $filesystem->mkdir($targetDir, 0777);
                 $filesystem->mirror($originDir, $targetDir, $finder);
             }
-            $originDirAdmin = $origem . '/'.$tema.'/Backend';
+            $originDirAdmin = $origem . '/' . $tema . '/Backend';
             $finder = new \Symfony\Component\Finder\Finder();
             $finder->in($originDirAdmin);
             $finder->files()->notName('*.twig');
