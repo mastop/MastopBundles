@@ -46,6 +46,7 @@ class LoadParametersData implements FixtureInterface, ContainerAwareInterface {
         $param->setTitle('Informações Principais');
         $param->setDesc('Configurações principais do Site');
         $param->setBundle('system');
+        $param->setRole('ROLE_ADMIN');
         $child = new Children();
         $child->setName('name');
         $child->setTitle('Nome do Site');
@@ -78,6 +79,7 @@ class LoadParametersData implements FixtureInterface, ContainerAwareInterface {
         $param->setTitle('SEO');
         $param->setDesc('Informações para otimização');
         $param->setBundle('system');
+        $param->setRole('ROLE_ADMIN');
         $param->setOrder(2);
         $child = new Children();
         $child->setName('keywords');
@@ -100,6 +102,7 @@ class LoadParametersData implements FixtureInterface, ContainerAwareInterface {
         $param->setTitle('Scripts');
         $param->setDesc('Javascript ou CSS para o site.');
         $param->setBundle('system');
+        $param->setRole('ROLE_ADMIN');
         $param->setOrder(3);
         $child = new Children();
         $child->setName('head');
