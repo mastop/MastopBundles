@@ -70,7 +70,7 @@ class ParamConverter implements ParamConverterInterface
         if (!$request->attributes->has('id')) {
             return false;
         }
-
+        if(is_numeric($request->attributes->get('id'))) return $this->mongo->find($class, (int) $request->attributes->get('id'));
         return $this->mongo->find($class, $request->attributes->get('id'));
     }
 
