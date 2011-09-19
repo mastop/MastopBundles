@@ -46,6 +46,16 @@ class TesteController extends BaseController {
         $this->get('session')->setFlash('ok', 'Tudo Certo!');
         $this->get('session')->setFlash('error', 'Tudo Errado!');
         $this->get('session')->setFlash('notice', 'Só avisando!');
+        // Envia e-mail de teste, se logado
+        $user = $this->getUser();
+        if($user){
+            $mail = $this->get('mastop.mailer');
+            $mail->to('fernando@mastop.com.br') // Também pode ser passado o objeto do usuário, que o sistema pegará o email via getEmail()
+                    ->subject('E-mail de teste')
+                    ->template('teste', array('user'=>$user, 'title'=>'Este é um teste!'))
+                    ->send();
+            $mail->notify('Notificação de teste', 'Mensagem da notificação de teste');
+        }
         return array('fer' => $mastopThemes->getName());
     }
     /**

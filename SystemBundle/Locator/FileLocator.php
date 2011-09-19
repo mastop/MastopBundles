@@ -109,6 +109,10 @@ class FileLocator extends BaseFileLocator
             return $this->path . "/" . $this->activeTheme . "/Backend/backend.html.twig";
         }elseif($name == 'views/frontend.html.twig'){
             return $this->path . "/" . $this->activeTheme . "/Frontend/frontend.html.twig";
+        }elseif($name == 'views/mail.html.twig'){
+            return $this->path . "/" . $this->activeTheme . "/Mail/mail.html.twig";
+        }elseif(substr($name, 0, 10) == 'views/Mail'){
+            return $this->path . "/" . $this->activeTheme . "/".substr($name, 6);
         }
         return parent::locate($name, $dir, $first);
     }
@@ -149,6 +153,7 @@ class FileLocator extends BaseFileLocator
             $checkPaths = array();
             if ($dir) {
                 $checkPaths[] = $dir.'/'.$this->activeTheme.'/Bundles/'.$bundle->getName().$overridePath;
+                $checkPaths[] = $dir.'/'.$this->activeTheme.'/Mail/'.$bundle->getName().$overridePath;
                 //$checkPaths[] = $dir.'/'.$bundle->getName().$overridePath;
                 //exit(print_r($checkPaths));
             }
