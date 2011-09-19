@@ -122,6 +122,24 @@ EOT
                     $filesystem->mirror($originDirAdmin, $targetDir, $finder);
                 }
             }
+            $originDirMail = $origem . '/'.$tema.'/Mail';
+            $finder = new Finder();
+            $finder->in($originDirMail);
+            $finder->files()->notName('*.twig');
+            if (is_dir($originDirMail)) {
+                $targetDir = $input->getArgument('target') . '/themes/' . $tema . '/mail';
+
+                $output->writeln(sprintf('Instalando arquivos de email do tema <comment>%s</comment> em <comment>%s</comment>', $tema, $targetDir));
+
+                $filesystem->remove($targetDir);
+
+                if ($input->getOption('symlink')) {
+                    $filesystem->symlink($originDirMail, $targetDir);
+                } else {
+                    $filesystem->mkdir($targetDir, 0777);
+                    $filesystem->mirror($originDirMail, $targetDir, $finder);
+                }
+            }
         }
     }
 

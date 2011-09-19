@@ -136,6 +136,17 @@ class ParametersController extends BaseController {
                 $filesystem->mkdir($targetDir, 0777);
                 $filesystem->mirror($originDirAdmin, $targetDir, $finder);
             }
+            $originDirMail = $origem . '/' . $tema . '/Mail';
+            $finder = new \Symfony\Component\Finder\Finder();
+            $finder->in($originDirMail);
+            $finder->files()->notName('*.twig');
+            if (is_dir($originDirMail)) {
+                $targetDir = $target . 'themes/' . $tema . '/mail';
+
+                $filesystem->remove($targetDir);
+                $filesystem->mkdir($targetDir, 0777);
+                $filesystem->mirror($originDirMail, $targetDir, $finder);
+            }
         }
         $this->get('session')->setFlash('ok', 'Temas Instalados!');
         return $this->redirect($this->generateUrl('admin_system_parameters_index'));

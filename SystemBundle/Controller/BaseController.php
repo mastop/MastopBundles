@@ -133,4 +133,11 @@ abstract class BaseController extends Controller {
         }
         return $response;
     }
+    public function getUser(){
+        $user = $this->get('security.context')->getToken()->getUser();
+        if(is_object($user)){
+            return $user;
+        }
+        return false;
+    }
 }
