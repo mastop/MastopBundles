@@ -21,6 +21,21 @@
             <tag name="data_collector" template="MastopSystemBundle:Collector:apc" id="apc" />
             <argument type="service" id="mastop" />
         </service>
+        <service id="mastop.mailer" class="Mastop\SystemBundle\Mailer">
+            <call method="setMastop">
+                <argument type="service" id="mastop" />
+            </call>
+            <call method="setTheme">
+                <argument type="service" id="mastop.themes" />
+            </call>
+            <call method="setMailer">
+                <argument type="service" id="mailer" />
+            </call>
+            <call method="setTemplatingEngine">
+                <argument type="service" id="templating" />
+            </call>
+            <call method="newMessage" />
+        </service>
     </services>
 
 </container>
