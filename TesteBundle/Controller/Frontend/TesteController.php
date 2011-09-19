@@ -50,7 +50,7 @@ class TesteController extends BaseController {
         $user = $this->getUser();
         if($user){
             $mail = $this->get('mastop.mailer');
-            $mail->to('fernando@mastop.com.br') // Também pode ser passado o objeto do usuário, que o sistema pegará o email via getEmail()
+            $mail->to('suporte@mastop.com.br') // Também pode ser passado o objeto do usuário, que o sistema pegará o email via getEmail()
                     ->subject('E-mail de teste')
                     ->template('teste', array('user'=>$user, 'title'=>'Este é um teste!'))
                     ->send();

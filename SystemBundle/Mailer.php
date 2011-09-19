@@ -193,7 +193,7 @@ class Mailer
      */
     public function notify($subject, $message = null, $email = null){
         $msg = \Swift_Message::newInstance();
-        $msg->setSubject($subject);
+        $msg->setSubject('['.$this->mastop->param('system.site.name').'] '.$subject);
         $msg->setFrom($this->mastop->param('system.site.adminmail'), $this->mastop->param('system.site.name'));
         if(!$email){
             $msg->setTo(array($this->mastop->param('system.site.adminmail') => $this->mastop->param('system.site.name')));
