@@ -108,6 +108,20 @@ class Mailer
     }
     
     /**
+     * Adiciona um email para resposta
+     * @param UserInterface $reply
+     * @return Mailer $mailer
+     */
+    public function replyTo($reply){
+        if(is_object($reply) && $reply instanceof UserInterface){
+            $this->message->setReplyTo(array($reply->getEmail() => $reply->getName()));
+        }else{
+            $this->message->setReplyTo($reply);
+        }
+        return $this;
+    }
+    
+    /**
      * Adiciona um destinatário
      * @param UserInterface $to
      * @return Mailer $mailer
@@ -146,6 +160,16 @@ class Mailer
         }else{
             $this->message->addBcc($bcc);
         }
+        return $this;
+    }
+    
+    /**
+     * Adiciona um anexo
+     * @param string $file
+     * @return Mailer $mailer
+     */
+    public function attach($file){
+        $this->message->attach(\Swift_Attachment::fromPath($file));
         return $this;
     }
     
