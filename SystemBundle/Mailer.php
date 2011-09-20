@@ -103,7 +103,7 @@ class Mailer
      * @return Mailer $mailer
      */
     public function subject($subject){
-        $this->message->setSubject($subject);
+        $this->message->setSubject('['.$this->mastop->param('system.site.name').'] '.$subject);
         return $this;
     }
     
