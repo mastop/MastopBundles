@@ -114,7 +114,7 @@ class Mailer
      */
     public function replyTo($reply){
         if(is_object($reply) && $reply instanceof UserInterface){
-            $this->message->setReplyTo(array($reply->getEmail() => $reply->getName()));
+            $this->message->setReplyTo($reply->getEmail(), $reply->getName());
         }else{
             $this->message->setReplyTo($reply);
         }
@@ -128,7 +128,7 @@ class Mailer
      */
     public function to($to){
         if(is_object($to) && $to instanceof UserInterface){
-            $this->message->addTo(array($to->getEmail() => $to->getName()));
+            $this->message->addTo($to->getEmail(), $to->getName());
         }else{
             $this->message->addTo($to);
         }
@@ -142,7 +142,7 @@ class Mailer
      */
     public function cc($cc){
         if(is_object($cc) && $cc instanceof UserInterface){
-            $this->message->addCc(array($cc->getEmail() => $cc->getName()));
+            $this->message->addCc($cc->getEmail(), $cc->getName());
         }else{
             $this->message->addCc($cc);
         }
@@ -156,7 +156,7 @@ class Mailer
      */
     public function bcc($bcc){
         if(is_object($bcc) && $bcc instanceof UserInterface){
-            $this->message->addBcc(array($bcc->getEmail() => $bcc->getName()));
+            $this->message->addBcc($bcc->getEmail(), $bcc->getName());
         }else{
             $this->message->addBcc($bcc);
         }
@@ -220,7 +220,7 @@ class Mailer
         $msg->setSubject('['.$this->mastop->param('system.site.name').'] '.$subject);
         $msg->setFrom($this->mastop->param('system.site.adminmail'), $this->mastop->param('system.site.name'));
         if(!$email){
-            $msg->setTo(array($this->mastop->param('system.site.adminmail') => $this->mastop->param('system.site.name')));
+            $msg->setTo($this->mastop->param('system.site.adminmail'), $this->mastop->param('system.site.name'));
         }else{
             $msg->setTo($email);
         }
