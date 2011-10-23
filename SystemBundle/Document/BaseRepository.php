@@ -58,11 +58,24 @@ class BaseRepository extends DocumentRepository {
     /**
      * Verifica se o registro existe
      *
-     * @param string $id
+     * @param string $field
+     * @param mixed $value
      * @return bool
      */
     public function has($field, $value) {
         return 1 === $this->createQueryBuilder()
+                ->field($field)->equals($value)
+                ->getQuery()->count();
+    }
+    /**
+     * Conta por campo / valor
+     *
+     * @param string $field
+     * @param string $value
+     * @return int
+     */
+    public function count($field, $value) {
+        return $this->createQueryBuilder()
                 ->field($field)->equals($value)
                 ->getQuery()->count();
     }
