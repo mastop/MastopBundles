@@ -121,5 +121,22 @@ class Mastop
 
         return $clean;
     }
+    
+    /**
+     * Função que gera um código randomico de letras e numeros
+     * 
+     * @param integer $lenght
+     * @return string 
+     */
+    public function generateCode($length = 6){
+        $characters = '0123456789BCDEFGHIJKLNQRUVWXYZ';
+        $string = '';    
+
+        for ($i = 0; $i < $length; $i++) {
+            $string .= $characters[mt_rand(0, (strlen($characters) - 1))];
+        }
+        
+        return $string;
+    }
 }
 
