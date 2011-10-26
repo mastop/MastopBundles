@@ -128,7 +128,7 @@ class Mastop
      * @param integer $lenght
      * @return string 
      */
-    public function generateCode($length){
+    public function generateCode($length = 6){
         $characters = '0123456789BCDEFGHIJKLNQRUVWXYZ';
         $string = '';    
 
