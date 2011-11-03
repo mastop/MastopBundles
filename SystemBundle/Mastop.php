@@ -91,14 +91,22 @@ class Mastop
                 throw new \Exception("Parâmetro ".$paramId." não existe.");
             }
             $childs = $parameter->getChildren();
+            $ret = null;
             foreach ($childs as $child){
                 if($child->getUser() == 'system'){
-                    $cache->set($parameter->getBundle().'.'.$parameter->getName().'.'.$child->getName(), $child->getValue());
+                    $sName = $parameter->getBundle().'.'.$parameter->getName().'.'.$child->getName();
+                    $sValue = $child->getValue();
+                    $cache->set($sName, $sValue);
                 }else{
-                    $cache->set($parameter->getBundle().'.'.$parameter->getName().'.'.$child->getName().'.'.$child->getUser(), $child->getValue());
+                    $sName = $parameter->getBundle().'.'.$parameter->getName().'.'.$child->getName().'.'.$child->getUser();
+                    $sValue = $child->getValue();
+                    $cache->set($sName, $sValue);
+                }
+                if($sName == $name){
+                    $ret = $sValue;
                 }
             }
-            return $cache->get($name);
+            return ($ret) ? $ret : $cache->get($name);
         }
     }
     /**
