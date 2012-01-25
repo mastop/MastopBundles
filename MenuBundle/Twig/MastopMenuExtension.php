@@ -70,9 +70,9 @@ class MastopMenuExtension extends Twig_Extension
     {
         return $this->container->get('mastop.menu')->render($menu, $item, $current, $depth, $template, $attributes);
     }
-    public function breadcrumbs($title = null, $current = null, $itens = false, $attrs = array(), $area = 'admin')
+    public function breadcrumbs($title = null, $current = null, $itens = false, $attrs = array(), $area = 'admin', $template = false)
     {
-        return $this->container->get('mastop.menu')->breadcrumbs($title, $current, $itens, $attrs, $area);
+        return $this->container->get('mastop.menu')->breadcrumbs($title, $current, $itens, $attrs, $area, $template);
     }
 
     /**

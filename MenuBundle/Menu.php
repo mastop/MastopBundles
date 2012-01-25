@@ -70,13 +70,13 @@ class Menu {
             }
         }
         // Se o nome do template não é o endereço direto pra o Twig
-        if(strpos(':', $template) === false){
+        if(strpos($template, ':') === false){
             return $this->engine->render('MastopMenuBundle:Templates:' . $template . '.html.twig', array('menu' => $document, 'current' => $current, 'attrs' => $attributes, 'root' => true, 'depth' => $depth));
         }
         return $this->engine->render($template, array('menu' => $document, 'current' => $current, 'attrs' => $attributes, 'root' => true, 'depth' => $depth));
     }
 
-    public function breadcrumbs($title = null, $current = null, $itens = false, $attrs = array(), $area = 'admin') {
+    public function breadcrumbs($title = null, $current = null, $itens = false, $attrs = array(), $area = 'admin', $template = false) {
         if ($current == '_home' || $current == 'admin_system_home_index') {
             return null; // Vazio se o current é home do site ou home da admin
         }
@@ -140,7 +140,10 @@ class Menu {
                 }
             }
         }
-        return $this->engine->render('MastopMenuBundle:Templates:breadcrumbs.html.twig', array('title' => $title, 'area' => $area, 'attrs' => $attrs, 'crumbs' => $ret));
+        if(!$template){
+            return $this->engine->render('MastopMenuBundle:Templates:breadcrumbs.html.twig', array('title' => $title, 'area' => $area, 'attrs' => $attrs, 'crumbs' => $ret));
+        }
+        return $this->engine->render($template, array('title' => $title, 'area' => $area, 'attrs' => $attrs, 'crumbs' => $ret));
     }
 
     private function prepareLinks($menu) {
