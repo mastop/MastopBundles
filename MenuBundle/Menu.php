@@ -69,7 +69,11 @@ class Menu {
                 $cache->set($menu . '.' . $item, $document, 604800); // Uma semana
             }
         }
-        return $this->engine->render('MastopMenuBundle:Templates:' . $template . '.html.twig', array('menu' => $document, 'current' => $current, 'attrs' => $attributes, 'root' => true, 'depth' => $depth));
+        // Se o nome do template não é o endereço direto pra o Twig
+        if(strpos(':', $template) === false){
+            return $this->engine->render('MastopMenuBundle:Templates:' . $template . '.html.twig', array('menu' => $document, 'current' => $current, 'attrs' => $attributes, 'root' => true, 'depth' => $depth));
+        }
+        return $this->engine->render($template, array('menu' => $document, 'current' => $current, 'attrs' => $attributes, 'root' => true, 'depth' => $depth));
     }
 
     public function breadcrumbs($title = null, $current = null, $itens = false, $attrs = array(), $area = 'admin') {
