@@ -27,6 +27,7 @@
 namespace Mastop\SystemBundle\DataFixtures\MongoDB;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Mastop\SystemBundle\Document\Parameters;
@@ -40,7 +41,7 @@ class LoadParametersData implements FixtureInterface, ContainerAwareInterface {
         $this->container = $container;
     }
 
-    public function load($manager) {
+    public function load(ObjectManager $manager) {
         $param = new Parameters();
         $param->setName('site');
         $param->setTitle('Informações Principais');
