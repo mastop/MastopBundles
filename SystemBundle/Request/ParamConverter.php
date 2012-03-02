@@ -106,6 +106,8 @@ class ParamConverter implements ParamConverterInterface
             return true;
         } catch (ReflectionException $e) {
             return false;
+        } catch (MongoDBException $e) {
+            return false;
         }
     }
 

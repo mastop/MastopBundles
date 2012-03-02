@@ -29,6 +29,8 @@ namespace Mastop\SystemBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class BaseController extends Controller {
 
@@ -133,11 +135,41 @@ abstract class BaseController extends Controller {
         }
         return $response;
     }
-    public function getUser(){
-        $user = $this->get('security.context')->getToken()->getUser();
-        if(is_object($user)){
-            return $user;
-        }
-        return false;
+
+    // As funções abaixo foram inspiradas no KnpRadBundle: https://github.com/KnpLabs/KnpRadBundle/blob/master/Controller/Controller.php
+
+    /**
+    * Retorna um AccessDeniedException.
+    *
+    * Esta função vai retornar um erro 403. Exemplo de Uso:
+    *
+    * throw $this->createAccessDeniedException('Você não tem permissão para acessar esta página.');
+    *
+    * @return AccessDeniedException
+    */
+    public function createAccessDeniedException($message = 'Acesso Proibido', \Exception $previous = null)
+    {
+        return new AccessDeniedException($message, $previous);
     }
+
+    /**
+    * Renders a hash into JSON.
+    *
+    * @param array $hash The hash
+    * @param Response $response A response instance
+    *
+    * @return Response A Response instance
+    */
+    public function renderJson(array $hash, Response $response = null)
+    {
+        if (null === $response) {
+            $response = new Response();
+        }
+
+        $response->setContent(json_encode($hash));
+        $response->headers->set('Content-type', 'application/json');
+
+        return $response;
+    }
+
 }
