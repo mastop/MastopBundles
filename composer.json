@@ -15,14 +15,15 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "symfony/symfony": ">=2.1"
+        "symfony/symfony": ">=2.1",
     },
     "suggest": {
-        "doctrine/mongodb-odm": "*"
+        "doctrine/mongodb-odm-bundle": "*"
     },
     "autoload": {
         "psr-0": { 
 	"Mastop": ""
 	}
-    }
+    },
+    "target-dir" : "Mastop"
 }
