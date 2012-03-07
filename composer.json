@@ -13,9 +13,6 @@
             "email": "o@fenan.do"
         }
     ],
-    "require": {
-        "php": ">=5.3.2",
-    },
     "autoload": {
         "psr-0": { 
 	"Mastop": ""
