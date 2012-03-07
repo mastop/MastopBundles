@@ -13,18 +13,10 @@
             "email": "o@fenan.do"
         }
     ],
-    "require": {
-        "php": ">=5.3.2",
-        "doctrine/common": ">=2.1"
-    },
-    "suggest": {
-        "doctrine/orm": ">=2.1",
-        "doctrine/mongodb-odm": "*"
-    },
     "autoload": {
         "psr-0": { 
 	"Mastop": ""
 	}
     },
-    "target-dir" : "Mastop/Bundle/MastopBundles"
+    "target-dir" : "Mastop"
 }
