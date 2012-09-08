@@ -49,7 +49,9 @@ class APCDataCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        $cache = apc_cache_info('user');
+        if(!$cache = @apc_cache_info('user')){
+            $cache = array('cache_list' => array(), 'num_hits' => 0, 'num_misses' => 0);
+        }
         $this->data['apc'] = array('total'=> count($cache['cache_list']), 'hits'=>$cache['num_hits'], 'misses' => $cache['num_misses']);
         $this->data['apcinfo'] = $cache['cache_list'];
     }
